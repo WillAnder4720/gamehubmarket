@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameHub Market</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:      #050612;
+      --bg2:     #0b0d20;
+      --bg3:     #0f1028;
+      --purple:  #7c3aed;
+      --purple2: #a78bfa;
+      --blue:    #3b82f6;
+      --blue2:   #60a5fa;
+      --discord: #5865f2;
+      --pink:    #ec4899;
+      --green:   #10b981;
+      --red:     #ef4444;
+      --text:    #f1f5f9;
+      --text2:   #94a3b8;
+      --text3:   #475569;
+      --border:  rgba(124,58,237,0.18);
+      --border2: rgba(255,255,255,0.07);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
+    a { color: inherit; text-decoration: none; cursor: pointer; }
+    button { cursor: pointer; font-family: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+    .section    { padding: 5rem 0; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: 68px; display: flex; align-items: center; padding: 0 1.5rem;
+      background: rgba(5,6,18,0.88); backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+    .hdr { width: 100%; max-width: 1280px; margin: 0 auto; display: flex; align-items: center; gap: 1.5rem; }
+    .logo { font-family: 'Orbitron', sans-serif; font-size: 1.05rem; font-weight: 700; background: linear-gradient(130deg, var(--purple2), var(--blue2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; cursor: pointer; flex-shrink: 0; }
+    .hdr-nav { display: flex; align-items: center; gap: 0.1rem; flex: 1; }
+    .nav-item { position: relative; }
+    .nav-btn { display: flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.7rem; background: none; border: none; color: var(--text2); font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-btn:hover { color: var(--text); }
+    .caret { font-size: 0.6rem; transition: transform 0.2s; }
+    .nav-item:hover .caret { transform: rotate(180deg); }
+    .dropdown { position: absolute; top: calc(100% + 6px); left: 0; min-width: 210px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 0.4rem; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.18s, transform 0.18s; z-index: 100; }
+    .nav-item:hover .dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+    .dd-link { display: block; padding: 0.5rem 0.8rem; color: var(--text2); font-size: 0.85rem; font-weight: 500; border-radius: 5px; transition: all 0.15s; }
+    .dd-link:hover { background: rgba(124,58,237,0.12); color: var(--purple2); }
+    .dd-sep { margin: 4px 0; border-top: 1px solid var(--border2); }
+    .dd-all { color: var(--purple2) !important; font-weight: 600; }
+    .hdr-right { margin-left: auto; display: flex; align-items: center; }
+    .btn-hdr-discord { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.45rem 1.1rem; background: var(--discord); color: white; font-family: 'Rajdhani', sans-serif; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border: none; border-radius: 6px; transition: all 0.2s; }
+    .btn-hdr-discord:hover { background: #4752c4; box-shadow: 0 4px 18px rgba(88,101,242,0.4); transform: translateY(-1px); }
+
+    /* ── HAMBURGER ── */
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; margin-left: auto; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text2); transition: all 0.25s; }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+    .mob-menu { display: none; position: fixed; top: 68px; left: 0; right: 0; background: var(--bg2); border-bottom: 1px solid var(--border); z-index: 999; padding: 0.75rem 1.5rem 1rem; }
+    .mob-menu.open { display: block; }
+    .mob-link { display: block; padding: 0.6rem 0; color: var(--text2); font-size: 0.88rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 1px solid var(--border2); }
+    .mob-link:last-child { border-bottom: none; }
+    .mob-sub .mob-link { padding-left: 1rem; font-size: 0.82rem; font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--text3); }
+    .mob-sub .mob-link:hover { color: var(--purple2); }
+
+    /* ── BUTTONS ── */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.65rem 1.6rem; font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border: none; border-radius: 7px; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+    .btn-primary { background: linear-gradient(135deg, var(--purple), var(--blue)); color: white; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(124,58,237,0.4); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.15); }
+    .btn-outline:hover { border-color: var(--purple2); color: var(--purple2); background: rgba(124,58,237,0.07); }
+    .btn-discord { background: var(--discord); color: white; }
+    .btn-discord:hover { background: #4752c4; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(88,101,242,0.4); }
+
+    /* ── HERO ── */
+    .hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8rem 1.5rem 5rem; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(1px); }
+    .orb-1 { width: 650px; height: 650px; top: -180px; left: -180px; background: radial-gradient(circle, rgba(124,58,237,0.16) 0%, transparent 68%); animation: fl1 13s ease-in-out infinite; }
+    .orb-2 { width: 550px; height: 550px; bottom: -100px; right: -120px; background: radial-gradient(circle, rgba(59,130,246,0.13) 0%, transparent 68%); animation: fl2 15s ease-in-out infinite; }
+    .orb-3 { width: 350px; height: 350px; top: 40%; left: 55%; background: radial-gradient(circle, rgba(236,72,153,0.07) 0%, transparent 70%); animation: fl1 10s ease-in-out infinite reverse; }
+    @keyframes fl1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(50px,35px) scale(1.08)} }
+    @keyframes fl2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-40px,-25px) scale(1.06)} }
+    .hero-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px); background-size: 64px 64px; }
+    .hero-content { position: relative; z-index: 1; max-width: 860px; }
+    .hero-pill { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.28rem 1rem; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.3); color: var(--purple2); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; border-radius: 20px; margin-bottom: 2rem; }
+    .pill-dot { width: 6px; height: 6px; background: var(--purple2); border-radius: 50%; animation: blink 1.6s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+    .hero h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 5.5vw, 4.75rem); font-weight: 900; line-height: 1.06; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .hero h1 em { font-style: normal; display: block; color: var(--text); }
+    .hero h1 .grad { display: block; background: linear-gradient(130deg, var(--purple2) 0%, var(--blue2) 60%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { font-size: 1.05rem; color: var(--text2); max-width: 590px; margin: 0 auto 2.75rem; line-height: 1.78; }
+    .hero-btns { display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap; }
+    .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: var(--text3); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; animation: bob 2s ease-in-out infinite; }
+    .hero-scroll svg { opacity: 0.4; }
+    @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+    /* ── SEC HEADER ── */
+    .sh { text-align: center; margin-bottom: 3rem; }
+    .sh h2 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.4rem, 3vw, 2.1rem); font-weight: 700; letter-spacing: 0.04em; margin-bottom: 0.6rem; }
+    .sh h2 span { color: var(--purple2); }
+    .sh p { color: var(--text2); font-size: 0.97rem; max-width: 500px; margin: 0 auto; }
+
+    /* ── COLLECTION CARDS ── */
+    .coll-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.25rem; }
+    .coll-card { position: relative; padding: 1.75rem; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; cursor: pointer; transition: all 0.28s; overflow: hidden; }
+    .coll-card::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(124,58,237,0.06),rgba(59,130,246,0.03)); opacity:0; transition:opacity 0.28s; pointer-events:none; }
+    .coll-card:hover { border-color: rgba(124,58,237,0.38); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(124,58,237,0.12); }
+    .coll-card:hover::after { opacity:1; }
+    .coll-badge { display: inline-block; padding: 0.18rem 0.55rem; background: rgba(124,58,237,0.13); border: 1px solid rgba(124,58,237,0.3); color: var(--purple2); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 4px; margin-bottom: 0.9rem; }
+    .coll-badge.item { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.28); color: var(--blue2); }
+    .coll-card h3 { font-family: 'Orbitron', sans-serif; font-size: 0.92rem; font-weight: 700; margin-bottom: 0.45rem; letter-spacing: 0.02em; }
+    .coll-card p { color: var(--text2); font-size: 0.83rem; line-height: 1.6; margin-bottom: 1.2rem; }
+    .coll-arrow { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--purple2); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: gap 0.2s; }
+    .coll-card:hover .coll-arrow { gap: 0.7rem; }
+
+    /* ── WHY CARDS ── */
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.25rem; }
+    .why-card { padding: 1.75rem; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; }
+    .why-icon { font-size: 1.8rem; margin-bottom: 0.9rem; }
+    .why-card h3 { font-family: 'Orbitron', sans-serif; font-size: 0.88rem; font-weight: 700; margin-bottom: 0.45rem; }
+    .why-card p { color: var(--text2); font-size: 0.84rem; line-height: 1.65; }
+
+    /* ── CTA STRIP ── */
+    .cta-strip { text-align: center; padding: 5rem 1.5rem; background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(59,130,246,0.07)); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .cta-strip h2 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.3rem, 3vw, 1.9rem); font-weight: 700; margin-bottom: 0.85rem; }
+    .cta-strip p { color: var(--text2); font-size: 0.97rem; max-width: 480px; margin: 0 auto 2rem; line-height: 1.75; }
+
+    /* ── PAGE HERO ── */
+    .page-hero { padding: 8.5rem 1.5rem 3.5rem; text-align: center; position: relative; }
+    .page-hero::before { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(124,58,237,0.3),transparent); }
+    .page-hero h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.6rem, 4vw, 2.8rem); font-weight: 700; letter-spacing: 0.04em; margin-bottom: 0.7rem; }
+    .page-hero h1 span { color: var(--purple2); }
+    .page-hero p { color: var(--text2); font-size: 0.97rem; max-width: 580px; margin: 0 auto; line-height: 1.75; }
+
+    /* ── SEARCH / FILTER / SORT ── */
+    .sf-row { display: flex; gap: 0.85rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+    .sf-wrap { position: relative; flex: 1; min-width: 200px; }
+    .sf-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: var(--text3); pointer-events: none; font-size: 0.9rem; }
+    .sf-input { width: 100%; padding: 0.65rem 1rem 0.65rem 2.6rem; background: var(--bg2); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+    .sf-input:focus { border-color: rgba(124,58,237,0.45); }
+    .sf-input::placeholder { color: var(--text3); }
+    .sf-sort { padding: 0.65rem 1rem; background: var(--bg2); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-family: 'Rajdhani', sans-serif; font-size: 0.87rem; font-weight: 600; outline: none; cursor: pointer; min-width: 170px; }
+    .ftabs { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .ftab { padding: 0.37rem 1rem; background: transparent; border: 1px solid var(--border2); border-radius: 20px; color: var(--text2); font-family: 'Rajdhani', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.18s; }
+    .ftab:hover, .ftab.on { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.38); color: var(--purple2); }
+    .back-btn { display: inline-flex; align-items: center; gap: 0.4rem; background: none; border: none; color: var(--text2); font-family: 'Rajdhani', sans-serif; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; padding: 0.4rem 0; margin-bottom: 1.5rem; transition: color 0.2s; }
+    .back-btn:hover { color: var(--purple2); }
+
+    /* ── PRODUCT GRID ── */
+    .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(285px, 1fr)); gap: 1.5rem; }
+
+    /* ── PRODUCT CARD ── */
+    .pcard { background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; overflow: hidden; transition: all 0.28s; display: flex; flex-direction: column; }
+    .pcard:hover { border-color: rgba(124,58,237,0.32); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(124,58,237,0.1); }
+    .pcard-img { aspect-ratio: 16/9; overflow: hidden; position: relative; background: var(--bg3); flex-shrink: 0; }
+    .pcard-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .pcard:hover .pcard-img img { transform: scale(1.05); }
+    .pcard-noimg { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--bg3), #100a2e); color: var(--text3); font-family: 'Orbitron', sans-serif; font-size: 0.58rem; letter-spacing: 0.22em; }
+    .pstatus { position: absolute; top: 9px; right: 9px; padding: 0.15rem 0.5rem; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 4px; }
+    .s-avail { background: rgba(16,185,129,0.18); border: 1px solid rgba(16,185,129,0.38); color: #34d399; }
+    .s-sold  { background: rgba(239,68,68,0.18); border: 1px solid rgba(239,68,68,0.35); color: #f87171; }
+    .pcard-body { padding: 1.1rem; flex: 1; display: flex; flex-direction: column; }
+    .pbadges { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.7rem; }
+    .bdg { padding: 0.13rem 0.45rem; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 4px; }
+    .bdg-plat { background: rgba(124,58,237,0.13); border: 1px solid rgba(124,58,237,0.28); color: var(--purple2); }
+    .bdg-game { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.26); color: var(--blue2); }
+    .bdg-type { background: rgba(236,72,153,0.1); border: 1px solid rgba(236,72,153,0.23); color: #f472b6; }
+    .pcard-title { font-family: 'Orbitron', sans-serif; font-size: 0.87rem; font-weight: 700; letter-spacing: 0.02em; margin-bottom: 0.35rem; }
+    .pcard-price { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--purple2); margin-bottom: 0.45rem; }
+    .pcard-desc { font-size: 0.82rem; color: var(--text2); line-height: 1.6; flex: 1; margin-bottom: 1rem; }
+    .pcard-btns { display: flex; gap: 0.45rem; }
+    .pcard-btn { flex: 1; padding: 0.52rem 0.4rem; font-family: 'Rajdhani', sans-serif; font-size: 0.73rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-align: center; border-radius: 6px; cursor: pointer; transition: all 0.18s; border: none; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+    .pb-view { background: rgba(124,58,237,0.13); color: var(--purple2); border: 1px solid rgba(124,58,237,0.28); }
+    .pb-view:hover { background: rgba(124,58,237,0.22); }
+    .pb-buy  { background: var(--discord); color: white; }
+    .pb-buy:hover  { background: #4752c4; box-shadow: 0 4px 14px rgba(88,101,242,0.35); }
+    .pb-disabled { opacity: 0.38; pointer-events: none; }
+
+    /* ── EMPTY STATE ── */
+    .empty { grid-column: 1/-1; text-align: center; padding: 5rem 1rem; }
+    .empty h3 { font-family: 'Orbitron', sans-serif; font-size: 1.05rem; margin-bottom: 0.7rem; }
+    .empty p { color: var(--text2); font-size: 0.9rem; max-width: 340px; margin: 0 auto 1.5rem; line-height: 1.7; }
+
+    /* ── PRODUCT DETAIL ── */
+    .detail-wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start; }
+    .detail-img-box { width: 100%; aspect-ratio: 16/9; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: var(--text3); font-family: 'Orbitron', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; position: sticky; top: 90px; }
+    .detail-img-box img { width: 100%; height: 100%; object-fit: cover; }
+    .breadcrumb { font-size: 0.78rem; color: var(--text3); margin-bottom: 1.1rem; display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+    .breadcrumb a { color: var(--purple2); transition: opacity 0.2s; }
+    .breadcrumb a:hover { opacity: 0.75; }
+    .detail-title { font-family: 'Orbitron', sans-serif; font-size: clamp(1.15rem, 2.5vw, 1.65rem); font-weight: 700; line-height: 1.3; margin-bottom: 0.7rem; }
+    .detail-price { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 700; color: var(--purple2); margin-bottom: 1.1rem; }
+    .detail-badges { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
+    .detail-status { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.28rem 0.85rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .detail-desc { color: var(--text2); font-size: 0.95rem; line-height: 1.78; margin-bottom: 1.5rem; }
+    .detail-specs { background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px; padding: 1.2rem; margin-bottom: 1.5rem; }
+    .detail-specs h4 { font-family: 'Orbitron', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 0.75rem; }
+    .spec-row { display: flex; justify-content: space-between; padding: 0.45rem 0; border-bottom: 1px solid var(--border2); font-size: 0.87rem; }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-row span:first-child { color: var(--text2); }
+    .spec-row span:last-child { font-weight: 600; }
+    .detail-notice { padding: 0.8rem 1rem; background: rgba(124,58,237,0.07); border-left: 2px solid rgba(124,58,237,0.4); font-size: 0.8rem; color: var(--text3); line-height: 1.6; margin-bottom: 1.5rem; border-radius: 0 6px 6px 0; }
+    .detail-btns { display: flex; flex-direction: column; gap: 0.65rem; }
+    .detail-btns .btn { font-size: 0.9rem; padding: 0.85rem; }
+
+    /* ── SEPARATOR ── */
+    .sep { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--bg2); border-top: 1px solid var(--border2); padding: 3.5rem 1.5rem 1.5rem; }
+    .foot-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 2.5rem; }
+    .foot-brand .logo { display: block; margin-bottom: 0.75rem; }
+    .foot-brand p { color: var(--text2); font-size: 0.84rem; line-height: 1.72; max-width: 290px; margin-bottom: 1.25rem; }
+    .foot-col h4 { font-family: 'Orbitron', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); margin-bottom: 0.85rem; }
+    .foot-col a { display: block; color: var(--text3); font-size: 0.86rem; margin-bottom: 0.45rem; cursor: pointer; transition: color 0.18s; }
+    .foot-col a:hover { color: var(--purple2); }
+    .foot-bottom { max-width: 1280px; margin: 0 auto; padding-top: 1.5rem; border-top: 1px solid var(--border2); display: flex; justify-content: space-between; align-items: flex-start; gap: 1.25rem; flex-wrap: wrap; }
+    .foot-copy { color: var(--text3); font-size: 0.76rem; line-height: 1.75; max-width: 720px; }
+    .foot-discord { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4rem 1rem; background: var(--discord); color: white; font-family: 'Rajdhani', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 6px; transition: all 0.2s; flex-shrink: 0; }
+    .foot-discord:hover { background: #4752c4; }
+
+    /* ── ANIMATIONS ── */
+    .fade-in { animation: fi 0.45s ease both; }
+    @keyframes fi { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+    .stagger > * { opacity: 0; animation: fi 0.4s ease both; }
+    .stagger > *:nth-child(1)  { animation-delay:0.04s }
+    .stagger > *:nth-child(2)  { animation-delay:0.09s }
+    .stagger > *:nth-child(3)  { animation-delay:0.14s }
+    .stagger > *:nth-child(4)  { animation-delay:0.19s }
+    .stagger > *:nth-child(5)  { animation-delay:0.24s }
+    .stagger > *:nth-child(6)  { animation-delay:0.29s }
+    .stagger > *:nth-child(n+7){ animation-delay:0.34s }
+    .pt { padding-top: 68px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hdr-nav, .hdr-right { display: none; }
+      .hamburger { display: flex; }
+      .detail-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .detail-img-box { position: static; }
+      .foot-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .foot-bottom { flex-direction: column; }
+    }
+    @media (max-width: 500px) {
+      .hero h1 { font-size: 1.9rem; }
+      .sf-row { flex-direction: column; }
+      .sf-sort { width: 100%; }
+      .hero-btns { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="hdr">
+  <div class="hdr">
+    <div class="logo" onclick="nav('/')">GameHub Market</div>
+    <nav class="hdr-nav">
+      <div class="nav-item">
+        <button class="nav-btn" onclick="nav('/')">Home</button>
+      </div>
+      <div class="nav-item">
+        <button class="nav-btn">Accounts <span class="caret">▾</span></button>
+        <div class="dropdown" id="dd-accounts"></div>
+      </div>
+      <div class="nav-item">
+        <button class="nav-btn">Items <span class="caret">▾</span></button>
+        <div class="dropdown" id="dd-items"></div>
+      </div>
+      <div class="nav-item">
+        <button class="nav-btn" onclick="window.open(CFG.discord,'_blank')">Discord</button>
+      </div>
+    </nav>
+    <div class="hdr-right">
+      <a class="btn-hdr-discord" id="hdr-discord" href="#" target="_blank">💬 Join Discord</a>
+    </div>
+    <button class="hamburger" id="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob"></div>
+
+<!-- APP -->
+<main id="app"></main>
+
+<!-- FOOTER -->
+<footer id="foot"></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script>
+/* ════════════════════════════════════════════════════════════════
+   ⚙️  CONFIG  — edit these
+════════════════════════════════════════════════════════════════ */
+const CFG = {
+  name:    "GameHub Market",
+  discord: "https://discord.com/invite/99YdEndRWP",  // ← paste your Discord invite link here
+  sheetURL:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSdeooASHTbIG5KvLir_HRxL-Y9qGRclPYDFST2IFv46gh6_JeZUrG0Aaq-Am7cGQfKKPHLzflNHWqX/pub?gid=0&single=true&output=csv",
+  tagline: "Game Accounts & Items,",
+  tagline2:"All in One Place.",
+  sub:     "Browse premium gaming accounts and in-game items with clear prices. Join our Discord to check availability, ask questions, and purchase.",
+};
+
+/* ════════════════════════════════════════════════════════════════
+   📂  CATEGORIES
+════════════════════════════════════════════════════════════════ */
+const ACCT_CATS = [
+  { id:"ps5-nba2k",        name:"PS5 NBA2K Accounts",        game:"NBA2K",    plat:"PS5",   desc:"Browse PS5 NBA2K accounts with clear prices and Discord purchase support." },
+  { id:"xbox-nba2k",       name:"Xbox NBA2K Accounts",       game:"NBA2K",    plat:"Xbox",  desc:"Browse Xbox NBA2K accounts with clear prices and Discord purchase support." },
+  { id:"brainrot-accounts",name:"Steal a Brainrot Accounts", game:"Brainrot", plat:"PC",    desc:"Browse available Steal a Brainrot accounts with clear pricing." },
+  { id:"fortnite",         name:"Fortnite Accounts",         game:"Fortnite", plat:"Multi", desc:"Browse Fortnite accounts with clear prices and Discord purchase support." },
+];
+const ITEM_CATS = [
+  { id:"brainrot-items", name:"Steal a Brainrot Items", game:"Brainrot",    desc:"Browse available Steal a Brainrot in-game items." },
+  { id:"blox-fruits",    name:"Blox Fruits Items",      game:"Blox Fruits", desc:"Browse available Blox Fruits items with listed prices. Join Discord to purchase or ask about availability." },
+];
+
+/* ════════════════════════════════════════════════════════════════
+   📦  PRODUCTS — loaded dynamically from Google Sheets CSV
+   Sheet columns (exact header names, row 1):
+     id          — unique ID, e.g. a1, a2, i1 (no spaces)
+     title       — listing title
+     price       — number, e.g. 45
+     type        — "account" or "item"
+     game        — e.g. NBA2K, Fortnite, Blox Fruits, Brainrot
+     platform    — e.g. PS5, Xbox, PC, Multi-Platform (blank for items)
+     category    — exact id: ps5-nba2k | xbox-nba2k | brainrot-accounts |
+                             fortnite | brainrot-items | blox-fruits
+     image       — Google Drive share link or any direct image URL (or blank)
+     description — listing description
+     tags        — comma-separated, e.g. PS5,NBA2K,Veteran
+     available   — TRUE or FALSE
+     featured    — TRUE or FALSE
+════════════════════════════════════════════════════════════════ */
+let PRODUCTS = [];
+
+/* ════════════════════════════════════════════════════════════════
+   🔧  HELPERS
+════════════════════════════════════════════════════════════════ */
+const $ = id => document.getElementById(id);
+const fmt = p => "$" + p;
+const allCats = () => [...ACCT_CATS, ...ITEM_CATS];
+
+// Convert a Google Drive share URL to a direct-load image URL
+function driveUrl(url) {
+  if (!url || !url.trim()) return "";
+  const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (m) return `https://drive.google.com/uc?export=view&id=${m[1]}`;
+  return url.trim();
+}
+
+// Build the details rows for the product detail page from flat CSV fields
+function buildDetails(row) {
+  const d = [];
+  if (row.platform && row.platform.trim()) d.push({ label: "Platform", value: row.platform.trim() });
+  if (row.game && row.game.trim())         d.push({ label: "Game",     value: row.game.trim() });
+  d.push({ label: "Type",     value: (row.type || "").toLowerCase() === "account" ? "Account" : "In-Game Item" });
+  d.push({ label: "Delivery", value: "Manual via Discord" });
+  return d;
+}
+
+// Fetch and parse the Google Sheet CSV into PRODUCTS
+async function loadProducts() {
+  if (!CFG.sheetURL || CFG.sheetURL.includes("SHEET_ID")) return;
+  try {
+    const result = await new Promise((resolve, reject) => {
+      Papa.parse(CFG.sheetURL, {
+        download:       true,
+        header:         true,
+        skipEmptyLines: true,
+        complete:       resolve,
+        error:          reject,
+      });
+    });
+    PRODUCTS = result.data
+      .filter(r => r.id && r.title)
+      .map(r => ({
+        id:          r.id.trim(),
+        title:       r.title.trim(),
+        price:       parseFloat(r.price) || 0,
+        type:        (r.type || "account").trim().toLowerCase(),
+        game:        (r.game || "").trim(),
+        platform:    (r.platform || "").trim(),
+        category:    (r.category || "").trim(),
+        image:       driveUrl(r.image || ""),
+        description: (r.description || "").trim(),
+        details:     buildDetails(r),
+        tags:        (r.tags || "").split(",").map(t => t.trim()).filter(Boolean),
+        available:   ["TRUE","YES","1"].includes((r.available || "").trim().toUpperCase()),
+        featured:    ["TRUE","YES","1"].includes((r.featured  || "").trim().toUpperCase()),
+      }));
+  } catch (e) {
+    console.error("GameHub: failed to load sheet —", e);
+  }
+}
+
+function nav(hash) {
+  location.hash = hash;
+  $("mob").classList.remove("open");
+  $("ham").classList.remove("open");
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+function toggleMob() {
+  $("mob").classList.toggle("open");
+  $("ham").classList.toggle("open");
+}
+
+/* ════════════════════════════════════════════════════════════════
+   🧩  BUILD CHROME (header dropdowns, mobile menu, footer)
+════════════════════════════════════════════════════════════════ */
+function buildChrome() {
+  document.title = CFG.name;
+  $("hdr-discord").href = CFG.discord;
+
+  // Account dropdown
+  $("dd-accounts").innerHTML =
+    ACCT_CATS.map(c => `<a class="dd-link" onclick="nav('/category/${c.id}')">${c.name}</a>`).join("") +
+    `<div class="dd-sep"></div><a class="dd-link dd-all" onclick="nav('/accounts')">View All Accounts →</a>`;
+
+  // Items dropdown
+  $("dd-items").innerHTML =
+    ITEM_CATS.map(c => `<a class="dd-link" onclick="nav('/category/${c.id}')">${c.name}</a>`).join("") +
+    `<div class="dd-sep"></div><a class="dd-link dd-all" onclick="nav('/items')">View All Items →</a>`;
+
+  // Mobile menu
+  $("mob").innerHTML = `
+    <a class="mob-link" onclick="nav('/')">Home</a>
+    <span class="mob-link" style="pointer-events:none;opacity:.5;font-size:.7rem;letter-spacing:.15em">Accounts</span>
+    <div class="mob-sub">${ACCT_CATS.map(c=>`<a class="mob-link" onclick="nav('/category/${c.id}')">${c.name}</a>`).join("")}<a class="mob-link" style="color:var(--purple2)" onclick="nav('/accounts')">View All Accounts</a></div>
+    <span class="mob-link" style="pointer-events:none;opacity:.5;font-size:.7rem;letter-spacing:.15em">Items</span>
+    <div class="mob-sub">${ITEM_CATS.map(c=>`<a class="mob-link" onclick="nav('/category/${c.id}')">${c.name}</a>`).join("")}<a class="mob-link" style="color:var(--purple2)" onclick="nav('/items')">View All Items</a></div>
+    <a class="mob-link" style="color:var(--discord)" href="${CFG.discord}" target="_blank">Join Discord</a>`;
+
+  // Footer
+  $("foot").innerHTML = `
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <span class="logo">${CFG.name}</span>
+        <p>${CFG.name} is a gaming catalog for browsing accounts and in-game items. Join Discord to check availability and purchase.</p>
+        <a class="btn btn-discord" href="${CFG.discord}" target="_blank">Join Discord</a>
+      </div>
+      <div class="foot-col">
+        <h4>Navigate</h4>
+        <a onclick="nav('/')">Home</a>
+        <a onclick="nav('/accounts')">Accounts</a>
+        <a onclick="nav('/items')">Items</a>
+        <a href="${CFG.discord}" target="_blank">Discord</a>
+      </div>
+      <div class="foot-col">
+        <h4>Categories</h4>
+        ${ACCT_CATS.map(c=>`<a onclick="nav('/category/${c.id}')">${c.name}</a>`).join("")}
+        ${ITEM_CATS.map(c=>`<a onclick="nav('/category/${c.id}')">${c.name}</a>`).join("")}
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p class="foot-copy">© ${new Date().getFullYear()} ${CFG.name}. ${CFG.name} is an independent marketplace-style catalog and is not affiliated with, endorsed by, or sponsored by any game publisher, platform, or brand. Listings are subject to availability and should be confirmed through Discord before purchase.</p>
+      <a class="foot-discord" href="${CFG.discord}" target="_blank">💬 Discord</a>
+    </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   🃏  PRODUCT CARD
+════════════════════════════════════════════════════════════════ */
+function card(p) {
+  const av = p.available;
+  return `<div class="pcard">
+    <div class="pcard-img">
+      ${p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">` : `<div class="pcard-noimg">NO PREVIEW</div>`}
+      <span class="pstatus ${av?"s-avail":"s-sold"}">${av?"Available":"Sold"}</span>
+    </div>
+    <div class="pcard-body">
+      <div class="pbadges">
+        ${p.platform?`<span class="bdg bdg-plat">${p.platform}</span>`:""}
+        <span class="bdg bdg-game">${p.game}</span>
+        <span class="bdg bdg-type">${p.type==="account"?"Account":"Item"}</span>
+      </div>
+      <div class="pcard-title">${p.title}</div>
+      <div class="pcard-price">${fmt(p.price)}</div>
+      <div class="pcard-desc">${p.description}</div>
+      <div class="pcard-btns">
+        <button class="pcard-btn pb-view" onclick="nav('/product/${p.id}')">View Details</button>
+        <a class="pcard-btn pb-buy${av?"":` pb-disabled`}" ${av?`href="${CFG.discord}" target="_blank"`:`href="#" onclick="return false"`}>Buy on Discord</a>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   🔍  FILTER / SORT ENGINE
+════════════════════════════════════════════════════════════════ */
+let _pool = [];
+
+function applyFS(pool, search, cat, sort) {
+  let r = [...pool];
+  if (cat !== "all") r = r.filter(p => p.category === cat);
+  if (search.trim()) {
+    const q = search.toLowerCase();
+    r = r.filter(p => [p.title,p.game,p.platform,p.category,p.description,...p.tags].some(v=>(v||"").toLowerCase().includes(q)));
+  }
+  if (sort==="price-asc")  r.sort((a,b)=>a.price-b.price);
+  if (sort==="price-desc") r.sort((a,b)=>b.price-a.price);
+  if (sort==="featured")   r.sort((a,b)=>(b.featured?1:0)-(a.featured?1:0));
+  if (sort==="available")  r.sort((a,b)=>(b.available?1:0)-(a.available?1:0));
+  return r;
+}
+
+function renderGrid(target, products) {
+  if (!products.length) {
+    target.innerHTML = `<div class="empty"><h3>No listings found.</h3><p>Try a different search, or join Discord to ask what is currently available.</p><a class="btn btn-discord" href="${CFG.discord}" target="_blank">Join Discord</a></div>`;
+    return;
+  }
+  target.innerHTML = `<div class="pgrid stagger">${products.map(card).join("")}</div>`;
+}
+
+function fsUpdate() {
+  const s = ($("sf-in")||{}).value||"";
+  const o = ($("sf-sort")||{}).value||"newest";
+  const a = document.querySelector(".ftab.on");
+  const c = a ? a.dataset.cat : "all";
+  renderGrid($("grid-wrap"), applyFS(_pool, s, c, o));
+}
+
+function setTab(el, cat) {
+  document.querySelectorAll(".ftab").forEach(b=>b.classList.remove("on"));
+  el.classList.add("on");
+  fsUpdate();
+}
+
+function sfHTML(ph) {
+  return `<div class="sf-row">
+    <div class="sf-wrap">
+      <span class="sf-icon">🔍</span>
+      <input class="sf-input" id="sf-in" type="text" placeholder="${ph}" oninput="fsUpdate()">
+    </div>
+    <select class="sf-sort" id="sf-sort" onchange="fsUpdate()">
+      <option value="newest">Newest</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+      <option value="featured">Featured First</option>
+      <option value="available">Available First</option>
+    </select>
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   📄  PAGE RENDERERS
+════════════════════════════════════════════════════════════════ */
+
+// ── HOME ──
+function renderHome() {
+  const featured = PRODUCTS.filter(p=>p.featured).slice(0,6);
+  $("app").innerHTML = `
+    <section class="hero">
+      <div class="hero-bg">
+        <div class="hero-grid-bg"></div>
+        <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+      </div>
+      <div class="hero-content fade-in">
+        <div class="hero-pill"><span class="pill-dot"></span>Premium Gaming Marketplace</div>
+        <h1>
+          <em>${CFG.tagline}</em>
+          <span class="grad">${CFG.tagline2}</span>
+        </h1>
+        <p class="hero-sub">${CFG.sub}</p>
+        <div class="hero-btns">
+          <button class="btn btn-primary" onclick="nav('/accounts')">Browse Accounts</button>
+          <button class="btn btn-outline" onclick="nav('/items')">Browse Items</button>
+          <a class="btn btn-discord" href="${CFG.discord}" target="_blank">Join Discord</a>
+        </div>
+      </div>
+      <div class="hero-scroll">
+        <svg width="14" height="20" viewBox="0 0 14 20" fill="none"><rect x="1" y="1" width="12" height="18" rx="6" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="7" r="2" fill="currentColor"/></svg>
+        Scroll
+      </div>
+    </section>
+    <div class="sep"></div>
+    <section class="section" style="background:var(--bg)">
+      <div class="container">
+        <div class="sh"><h2>Browse by <span>Collection</span></h2><p>Find accounts and items organized by game, platform, and type.</p></div>
+        <div class="coll-grid stagger">
+          ${ACCT_CATS.map(c=>`<div class="coll-card" onclick="nav('/category/${c.id}')"><span class="coll-badge">Account</span><h3>${c.name}</h3><p>${c.desc}</p><span class="coll-arrow">View Collection →</span></div>`).join("")}
+          ${ITEM_CATS.map(c=>`<div class="coll-card" onclick="nav('/category/${c.id}')"><span class="coll-badge item">Item</span><h3>${c.name}</h3><p>${c.desc}</p><span class="coll-arrow">View Collection →</span></div>`).join("")}
+        </div>
+      </div>
+    </section>
+    <div class="sep"></div>
+    ${featured.length ? `
+    <section class="section" style="background:var(--bg2)">
+      <div class="container">
+        <div class="sh"><h2>Featured <span>Listings</span></h2><p>Check out selected accounts and items currently available.</p></div>
+        <div class="pgrid stagger">${featured.map(card).join("")}</div>
+      </div>
+    </section>
+    <div class="sep"></div>` : ""}
+    <section class="section" style="background:var(--bg)">
+      <div class="container">
+        <div class="sh"><h2>Why <span>GameHub Market?</span></h2></div>
+        <div class="why-grid stagger">
+          <div class="why-card"><div class="why-icon">💰</div><h3>Clear Pricing</h3><p>Every listing shows its price up front. No hidden fees or surprise costs.</p></div>
+          <div class="why-card"><div class="why-icon">🗂️</div><h3>Organized Categories</h3><p>Browse accounts and items sorted by game and platform — easy to find exactly what you want.</p></div>
+          <div class="why-card"><div class="why-icon">💬</div><h3>Discord Support</h3><p>Ask questions and check availability before buying. Direct communication, no hassle.</p></div>
+          <div class="why-card"><div class="why-icon">🔄</div><h3>Updated Listings</h3><p>Listings are updated as availability changes. Always confirm on Discord before purchasing.</p></div>
+        </div>
+      </div>
+    </section>
+    <div class="cta-strip">
+      <h2>Ready to buy or ask about a listing?</h2>
+      <p>Join the ${CFG.name} Discord to check availability, request more details, and complete your purchase.</p>
+      <a class="btn btn-discord" href="${CFG.discord}" target="_blank" style="font-size:.95rem;padding:.9rem 2.5rem">Join Discord</a>
+    </div>`;
+}
+
+// ── ACCOUNTS ──
+function renderAccounts() {
+  _pool = PRODUCTS.filter(p=>p.type==="account");
+  $("app").innerHTML = `<div class="pt">
+    <div class="page-hero"><h1>Browse <span>Game Accounts</span></h1><p>Search accounts by game, platform, category, or price. Find the listing you want, then join Discord to check availability and purchase.</p></div>
+    <div class="container" style="padding-bottom:5rem">
+      ${sfHTML("Search accounts...")}
+      <div class="ftabs stagger" id="ftabs">
+        <button class="ftab on" data-cat="all" onclick="setTab(this,'all')">All Accounts</button>
+        ${ACCT_CATS.map(c=>`<button class="ftab" data-cat="${c.id}" onclick="setTab(this,'${c.id}')">${c.name}</button>`).join("")}
+      </div>
+      <div id="grid-wrap"><div class="pgrid stagger">${_pool.map(card).join("")}</div></div>
+    </div>
+  </div>`;
+}
+
+// ── ITEMS ──
+function renderItems() {
+  _pool = PRODUCTS.filter(p=>p.type==="item");
+  $("app").innerHTML = `<div class="pt">
+    <div class="page-hero"><h1>Browse <span>Game Items</span></h1><p>View available in-game items with listed prices. Join Discord to ask questions, confirm availability, and purchase.</p></div>
+    <div class="container" style="padding-bottom:5rem">
+      ${sfHTML("Search items...")}
+      <div class="ftabs stagger" id="ftabs">
+        <button class="ftab on" data-cat="all" onclick="setTab(this,'all')">All Items</button>
+        ${ITEM_CATS.map(c=>`<button class="ftab" data-cat="${c.id}" onclick="setTab(this,'${c.id}')">${c.name}</button>`).join("")}
+      </div>
+      <div id="grid-wrap"><div class="pgrid stagger">${_pool.map(card).join("")}</div></div>
+    </div>
+  </div>`;
+}
+
+// ── CATEGORY ──
+function renderCategory(catId) {
+  const cat = allCats().find(c=>c.id===catId);
+  if (!cat) { nav("/"); return; }
+  _pool = PRODUCTS.filter(p=>p.category===catId);
+  const isAcct = ACCT_CATS.some(c=>c.id===catId);
+  $("app").innerHTML = `<div class="pt">
+    <div class="page-hero">
+      <h1><span>${cat.name}</span></h1>
+      <p>${cat.desc} Message us on Discord to check availability or purchase.</p>
+    </div>
+    <div class="container" style="padding-bottom:5rem">
+      <button class="back-btn" onclick="nav('/${isAcct?'accounts':'items'}')">← Back to ${isAcct?'Accounts':'Items'}</button>
+      ${sfHTML("Search " + cat.name.toLowerCase() + "...")}
+      <div id="grid-wrap">
+        ${_pool.length
+          ? `<div class="pgrid stagger">${_pool.map(card).join("")}</div>`
+          : `<div class="empty"><h3>No listings yet.</h3><p>This collection is coming soon. Join our Discord to ask what is currently available.</p><a class="btn btn-discord" href="${CFG.discord}" target="_blank">Join Discord</a></div>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── PRODUCT DETAIL ──
+function renderProduct(pid) {
+  const p = PRODUCTS.find(x=>x.id===pid);
+  if (!p) { nav("/"); return; }
+  const cat = allCats().find(c=>c.id===p.category);
+  const av  = p.available;
+  const isAcct = p.type==="account";
+  $("app").innerHTML = `<div class="pt">
+    <div class="detail-wrap">
+      <div class="detail-grid">
+        <div>
+          <div class="detail-img-box">
+            ${p.image?`<img src="${p.image}" alt="${p.title}">`:"NO IMAGE AVAILABLE"}
+          </div>
+        </div>
+        <div class="fade-in">
+          <div class="breadcrumb">
+            <a onclick="nav('/')">Home</a> ›
+            <a onclick="nav('/${isAcct?'accounts':'items'}')">${isAcct?'Accounts':'Items'}</a>
+            ${cat?` › <a onclick="nav('/category/${cat.id}')">${cat.name}</a>`:""}
+          </div>
+          <h1 class="detail-title">${p.title}</h1>
+          <div class="detail-price">${fmt(p.price)}</div>
+          <div class="detail-badges">
+            ${p.platform?`<span class="bdg bdg-plat">${p.platform}</span>`:""}
+            <span class="bdg bdg-game">${p.game}</span>
+            <span class="bdg bdg-type">${isAcct?"Account":"Item"}</span>
+            ${p.tags.map(t=>`<span class="bdg" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--text2)">${t}</span>`).join("")}
+          </div>
+          <div class="detail-status ${av?"s-avail":"s-sold"}">
+            ● ${av?"Available":"Sold"}
+          </div>
+          <p class="detail-desc">${p.description}</p>
+          <div class="detail-specs">
+            <h4>Details</h4>
+            ${p.details.map(d=>`<div class="spec-row"><span>${d.label}</span><span>${d.value}</span></div>`).join("")}
+            <div class="spec-row"><span>Price</span><span>${fmt(p.price)}</span></div>
+            <div class="spec-row"><span>Availability</span><span>${av?"Confirm on Discord":"Sold"}</span></div>
+          </div>
+          <div class="detail-notice">Listings are subject to availability. Please confirm details in Discord before purchasing.</div>
+          <div class="detail-btns">
+            ${av
+              ? `<a class="btn btn-discord" href="${CFG.discord}" target="_blank">Buy on Discord</a>
+                 <a class="btn btn-outline" href="${CFG.discord}" target="_blank">Ask a Question</a>`
+              : `<button class="btn btn-outline" disabled style="opacity:.35;cursor:not-allowed">Currently Sold</button>
+                 <a class="btn btn-outline" href="${CFG.discord}" target="_blank">Ask About Availability</a>`}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   🚦  ROUTER
+════════════════════════════════════════════════════════════════ */
+function route() {
+  const h = location.hash.replace("#","") || "/";
+  if      (h==="/" || h==="")          renderHome();
+  else if (h==="/accounts")            renderAccounts();
+  else if (h==="/items")               renderItems();
+  else if (h.startsWith("/category/")) renderCategory(h.replace("/category/",""));
+  else if (h.startsWith("/product/"))  renderProduct(h.replace("/product/",""));
+  else renderHome();
+}
+
+window.addEventListener("hashchange", route);
+
+/* ════════════════════════════════════════════════════════════════
+   🚀  INIT
+════════════════════════════════════════════════════════════════ */
+buildChrome();
+$("app").innerHTML = `<div style="min-height:70vh;display:flex;align-items:center;justify-content:center"><p style="color:var(--text3);font-family:'Orbitron',sans-serif;font-size:.82rem;letter-spacing:.18em;animation:blink 1.4s ease-in-out infinite">LOADING LISTINGS…</p></div>`;
+loadProducts().then(() => route());
+</script>
+</body>
+</html>
