@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GameHub Market</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -299,18 +300,21 @@
 <!-- FOOTER -->
 <footer id="foot"></footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
 /* ════════════════════════════════════════════════════════════════
    ⚙️  CONFIG  — edit these
 ════════════════════════════════════════════════════════════════ */
 const CFG = {
   name:    "GameHub Market",
-  discord: "https://discord.com/invite/99YdEndRWP",  // ← paste your Discord invite link here
-  sheetURL:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSdeooASHTbIG5KvLir_HRxL-Y9qGRclPYDFST2IFv46gh6_JeZUrG0Aaq-Am7cGQfKKPHLzflNHWqX/pub?gid=0&single=true&output=csv",
+  discord: "https://discord.gg/XXXXXXXXX",   // ← paste your Discord link here
   tagline: "Game Accounts & Items,",
   tagline2:"All in One Place.",
   sub:     "Browse premium gaming accounts and in-game items with clear prices. Join our Discord to check availability, ask questions, and purchase.",
+  // ── GOOGLE SHEETS ──────────────────────────────────────────────
+  // 1. Open your Google Sheet → File → Share → Publish to web
+  // 2. Choose "Sheet1" and "CSV" → click Publish → copy the link
+  // 3. Paste it below. Leave "" to use the built-in demo products.
+  sheetURL: "",
 };
 
 /* ════════════════════════════════════════════════════════════════
@@ -328,23 +332,59 @@ const ITEM_CATS = [
 ];
 
 /* ════════════════════════════════════════════════════════════════
-   📦  PRODUCTS — loaded dynamically from Google Sheets CSV
-   Sheet columns (exact header names, row 1):
-     id          — unique ID, e.g. a1, a2, i1 (no spaces)
-     title       — listing title
-     price       — number, e.g. 45
-     type        — "account" or "item"
-     game        — e.g. NBA2K, Fortnite, Blox Fruits, Brainrot
-     platform    — e.g. PS5, Xbox, PC, Multi-Platform (blank for items)
-     category    — exact id: ps5-nba2k | xbox-nba2k | brainrot-accounts |
-                             fortnite | brainrot-items | blox-fruits
-     image       — Google Drive share link or any direct image URL (or blank)
-     description — listing description
-     tags        — comma-separated, e.g. PS5,NBA2K,Veteran
-     available   — TRUE or FALSE
-     featured    — TRUE or FALSE
+   📦  PRODUCTS — fallback/demo data (used when sheetURL is empty)
 ════════════════════════════════════════════════════════════════ */
-let PRODUCTS = [];
+let PRODUCTS = [
+  {
+    id:"a1", title:"PS5 NBA2K Account — Veteran Build", price:120,
+    type:"account", game:"NBA2K", platform:"PS5", category:"ps5-nba2k", image:"",
+    description:"High-value PS5 NBA2K account with veteran player status. Message on Discord to confirm details and availability before purchasing.",
+    details:[{label:"Platform",value:"PS5"},{label:"Game",value:"NBA2K"},{label:"Type",value:"Account"},{label:"Delivery",value:"Manual via Discord"}],
+    tags:["PS5","NBA2K","Veteran"], available:true, featured:true,
+  },
+  {
+    id:"a2", title:"PS5 NBA2K Account — Starter Pack", price:45,
+    type:"account", game:"NBA2K", platform:"PS5", category:"ps5-nba2k", image:"",
+    description:"Good entry-level PS5 NBA2K account at a budget-friendly price. Ask on Discord for full details.",
+    details:[{label:"Platform",value:"PS5"},{label:"Game",value:"NBA2K"},{label:"Type",value:"Account"},{label:"Delivery",value:"Manual via Discord"}],
+    tags:["PS5","NBA2K","Starter"], available:true, featured:false,
+  },
+  {
+    id:"a3", title:"Xbox NBA2K Account — Pro Series", price:85,
+    type:"account", game:"NBA2K", platform:"Xbox", category:"xbox-nba2k", image:"",
+    description:"Pro-level Xbox NBA2K account with solid stats and competitive history. Confirm availability on Discord.",
+    details:[{label:"Platform",value:"Xbox"},{label:"Game",value:"NBA2K"},{label:"Type",value:"Account"},{label:"Delivery",value:"Manual via Discord"}],
+    tags:["Xbox","NBA2K","Pro"], available:true, featured:true,
+  },
+  {
+    id:"a4", title:"Fortnite Account — Season Veteran", price:60,
+    type:"account", game:"Fortnite", platform:"Multi-Platform", category:"fortnite", image:"",
+    description:"Multi-season Fortnite account with rare cosmetics. DM on Discord to check availability and details.",
+    details:[{label:"Platform",value:"Multi-Platform"},{label:"Game",value:"Fortnite"},{label:"Type",value:"Account"},{label:"Delivery",value:"Manual via Discord"}],
+    tags:["Fortnite","Rare Skins","Season"], available:true, featured:true,
+  },
+  {
+    id:"a5", title:"Steal a Brainrot Account — Max Level", price:35,
+    type:"account", game:"Brainrot", platform:"PC", category:"brainrot-accounts", image:"",
+    description:"Max level Steal a Brainrot account. Join Discord to confirm availability and purchase.",
+    details:[{label:"Platform",value:"PC"},{label:"Game",value:"Steal a Brainrot"},{label:"Type",value:"Account"},{label:"Delivery",value:"Manual via Discord"}],
+    tags:["Brainrot","Max Level"], available:false, featured:false,
+  },
+  {
+    id:"i1", title:"Blox Fruits Item — Rare Fruit", price:25,
+    type:"item", game:"Blox Fruits", platform:"", category:"blox-fruits", image:"",
+    description:"In-game Blox Fruits item listing. Join Discord to confirm availability and purchase.",
+    details:[{label:"Game",value:"Blox Fruits"},{label:"Type",value:"In-Game Item"},{label:"Delivery",value:"Manual via Discord"}],
+    tags:["Blox Fruits","Rare","Item"], available:true, featured:true,
+  },
+  {
+    id:"i2", title:"Steal a Brainrot Item Bundle", price:15,
+    type:"item", game:"Brainrot", platform:"", category:"brainrot-items", image:"",
+    description:"Bundle of in-game Steal a Brainrot items. Message on Discord to ask about availability.",
+    details:[{label:"Game",value:"Steal a Brainrot"},{label:"Type",value:"In-Game Item"},{label:"Delivery",value:"Manual via Discord"}],
+    tags:["Brainrot","Item","Bundle"], available:true, featured:false,
+  },
+];
 
 /* ════════════════════════════════════════════════════════════════
    🔧  HELPERS
@@ -352,59 +392,6 @@ let PRODUCTS = [];
 const $ = id => document.getElementById(id);
 const fmt = p => "$" + p;
 const allCats = () => [...ACCT_CATS, ...ITEM_CATS];
-
-// Convert a Google Drive share URL to a direct-load image URL
-function driveUrl(url) {
-  if (!url || !url.trim()) return "";
-  const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-  if (m) return `https://drive.google.com/uc?export=view&id=${m[1]}`;
-  return url.trim();
-}
-
-// Build the details rows for the product detail page from flat CSV fields
-function buildDetails(row) {
-  const d = [];
-  if (row.platform && row.platform.trim()) d.push({ label: "Platform", value: row.platform.trim() });
-  if (row.game && row.game.trim())         d.push({ label: "Game",     value: row.game.trim() });
-  d.push({ label: "Type",     value: (row.type || "").toLowerCase() === "account" ? "Account" : "In-Game Item" });
-  d.push({ label: "Delivery", value: "Manual via Discord" });
-  return d;
-}
-
-// Fetch and parse the Google Sheet CSV into PRODUCTS
-async function loadProducts() {
-  if (!CFG.sheetURL || CFG.sheetURL.includes("SHEET_ID")) return;
-  try {
-    const result = await new Promise((resolve, reject) => {
-      Papa.parse(CFG.sheetURL, {
-        download:       true,
-        header:         true,
-        skipEmptyLines: true,
-        complete:       resolve,
-        error:          reject,
-      });
-    });
-    PRODUCTS = result.data
-      .filter(r => r.id && r.title)
-      .map(r => ({
-        id:          r.id.trim(),
-        title:       r.title.trim(),
-        price:       parseFloat(r.price) || 0,
-        type:        (r.type || "account").trim().toLowerCase(),
-        game:        (r.game || "").trim(),
-        platform:    (r.platform || "").trim(),
-        category:    (r.category || "").trim(),
-        image:       driveUrl(r.image || ""),
-        description: (r.description || "").trim(),
-        details:     buildDetails(r),
-        tags:        (r.tags || "").split(",").map(t => t.trim()).filter(Boolean),
-        available:   ["TRUE","YES","1"].includes((r.available || "").trim().toUpperCase()),
-        featured:    ["TRUE","YES","1"].includes((r.featured  || "").trim().toUpperCase()),
-      }));
-  } catch (e) {
-    console.error("GameHub: failed to load sheet —", e);
-  }
-}
 
 function nav(hash) {
   location.hash = hash;
@@ -732,6 +719,72 @@ function renderProduct(pid) {
 }
 
 /* ════════════════════════════════════════════════════════════════
+   📊  GOOGLE SHEETS PARSER
+════════════════════════════════════════════════════════════════ */
+
+// Converts a raw CSV row from the sheet into a PRODUCTS-style object.
+// Columns: id, title, price, type, game, platform, category,
+//          image, description, details, tags, available, featured
+//
+// details format in sheet:  "Platform: PS5 | Game: NBA2K | Delivery: Manual"
+// tags format in sheet:     "PS5, NBA2K, Veteran"
+// available / featured:     "yes" or "no"
+
+// Converts a Google Drive share link into a direct image URL.
+// Accepts any of these formats your friend might copy from Drive:
+//   https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+//   https://drive.google.com/open?id=FILE_ID
+//   https://drive.google.com/uc?id=FILE_ID   (already a direct link)
+// Returns the original URL unchanged for anything else (Imgur, etc.)
+function toDirectImage(url) {
+  if (!url) return "";
+  // Already a direct uc link
+  if (url.includes("drive.google.com/uc")) return url;
+  // /file/d/FILE_ID/... format
+  const m1 = url.match(/\/file\/d\/([^/]+)/);
+  if (m1) return `https://drive.google.com/uc?export=view&id=${m1[1]}`;
+  // open?id=FILE_ID or uc?id=FILE_ID format
+  const m2 = url.match(/[?&]id=([^&]+)/);
+  if (m2) return `https://drive.google.com/uc?export=view&id=${m2[1]}`;
+  // Not a Drive link — return as-is (Imgur, etc.)
+  return url;
+}
+
+function parseSheetRow(r) {
+  return {
+    id:          r.id          || ("p" + Math.random().toString(36).slice(2,7)),
+    title:       r.title       || "Untitled",
+    price:       parseFloat(r.price) || 0,
+    type:        (r.type       || "account").toLowerCase(),
+    game:        r.game        || "",
+    platform:    r.platform    || "",
+    category:    r.category    || "",
+    image:       toDirectImage(r.image || ""),
+    description: r.description || "",
+    details:     parseDetails(r.details || ""),
+    tags:        (r.tags || "").split(",").map(t => t.trim()).filter(Boolean),
+    available:   (r.available  || "yes").toLowerCase().trim() === "yes",
+    featured:    (r.featured   || "no" ).toLowerCase().trim() === "yes",
+  };
+}
+
+function parseDetails(str) {
+  // Splits "Platform: PS5 | Game: NBA2K" into [{label,value}, ...]
+  return str.split("|").map(s => {
+    const i = s.indexOf(":");
+    if (i < 0) return null;
+    return { label: s.slice(0, i).trim(), value: s.slice(i + 1).trim() };
+  }).filter(Boolean);
+}
+
+function showLoading() {
+  $("app").innerHTML = `
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding-top:68px">
+      <div style="font-family:'Orbitron',sans-serif;font-size:.8rem;letter-spacing:.25em;color:var(--purple2);animation:blink 1.2s ease-in-out infinite">LOADING INVENTORY...</div>
+    </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════════
    🚦  ROUTER
 ════════════════════════════════════════════════════════════════ */
 function route() {
@@ -747,11 +800,29 @@ function route() {
 window.addEventListener("hashchange", route);
 
 /* ════════════════════════════════════════════════════════════════
-   🚀  INIT
+   🚀  INIT — loads from Google Sheet if sheetURL is set
 ════════════════════════════════════════════════════════════════ */
 buildChrome();
-$("app").innerHTML = `<div style="min-height:70vh;display:flex;align-items:center;justify-content:center"><p style="color:var(--text3);font-family:'Orbitron',sans-serif;font-size:.82rem;letter-spacing:.18em;animation:blink 1.4s ease-in-out infinite">LOADING LISTINGS…</p></div>`;
-loadProducts().then(() => route());
+
+if (CFG.sheetURL) {
+  showLoading();
+  Papa.parse(CFG.sheetURL, {
+    download:  true,
+    header:    true,
+    skipEmptyLines: true,
+    complete: res => {
+      const rows = res.data.filter(r => r.id && r.title);
+      if (rows.length) PRODUCTS = rows.map(parseSheetRow);
+      route();
+    },
+    error: () => {
+      // Sheet failed — fall back to built-in demo products silently
+      route();
+    },
+  });
+} else {
+  route();
+}
 </script>
 </body>
 </html>
