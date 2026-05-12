@@ -38,7 +38,8 @@
     /* ── HEADER ── */
     header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 68px; display: flex; align-items: center; padding: 0 1.5rem; background: rgba(5,6,18,0.88); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); }
     .hdr { width: 100%; max-width: 1280px; margin: 0 auto; display: flex; align-items: center; gap: 1.5rem; }
-    .logo { font-family: 'Orbitron', sans-serif; font-size: 1.05rem; font-weight: 700; background: linear-gradient(130deg, var(--purple2), var(--blue2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; cursor: pointer; flex-shrink: 0; }
+    .logo { display: flex; align-items: center; cursor: pointer; flex-shrink: 0; }
+    .logo img { height: 42px; width: auto; display: block; }
     .hdr-nav { display: flex; align-items: center; gap: 0.1rem; flex: 1; }
     .nav-item { position: relative; }
     .nav-btn { display: flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.7rem; background: none; border: none; color: var(--text2); font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
@@ -294,7 +295,7 @@
 <!-- HEADER -->
 <header id="hdr">
   <div class="hdr">
-    <div class="logo" onclick="nav('/')">GameHub Market</div>
+    <div class="logo" onclick="nav('/')"><img src="logo.png" alt="GameHub Market"></div>
     <nav class="hdr-nav">
       <div class="nav-item">
         <button class="nav-btn" onclick="nav('/')">Home</button>
@@ -442,7 +443,7 @@ function buildChrome() {
   $("foot").innerHTML = `
     <div class="foot-inner">
       <div class="foot-brand">
-        <span class="logo">${CFG.name}</span>
+        <div class="logo" style="cursor:default"><img src="logo.png" alt="GameHub Market"></div>
         <p>${CFG.name} is a gaming catalog for browsing accounts and in-game items. Join Discord to check availability and purchase.</p>
         <a class="btn btn-discord" href="${CFG.discord}" target="_blank">Join Discord</a>
       </div>
