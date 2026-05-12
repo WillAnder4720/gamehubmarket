@@ -32,17 +32,11 @@
     button { cursor: pointer; font-family: inherit; }
     img { max-width: 100%; display: block; }
 
-    /* ── LAYOUT ── */
     .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
     .section    { padding: 5rem 0; }
 
     /* ── HEADER ── */
-    header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      height: 68px; display: flex; align-items: center; padding: 0 1.5rem;
-      background: rgba(5,6,18,0.88); backdrop-filter: blur(24px);
-      border-bottom: 1px solid var(--border);
-    }
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 68px; display: flex; align-items: center; padding: 0 1.5rem; background: rgba(5,6,18,0.88); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); }
     .hdr { width: 100%; max-width: 1280px; margin: 0 auto; display: flex; align-items: center; gap: 1.5rem; }
     .logo { font-family: 'Orbitron', sans-serif; font-size: 1.05rem; font-weight: 700; background: linear-gradient(130deg, var(--purple2), var(--blue2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; cursor: pointer; flex-shrink: 0; }
     .hdr-nav { display: flex; align-items: center; gap: 0.1rem; flex: 1; }
@@ -50,9 +44,9 @@
     .nav-btn { display: flex; align-items: center; gap: 0.3rem; padding: 0.45rem 0.7rem; background: none; border: none; color: var(--text2); font-family: 'Rajdhani', sans-serif; font-size: 0.88rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
     .nav-btn:hover { color: var(--text); }
     .caret { font-size: 0.6rem; transition: transform 0.2s; }
-    .nav-item:hover .caret { transform: rotate(180deg); }
+    .nav-item.dd-open .caret { transform: rotate(180deg); }
     .dropdown { position: absolute; top: calc(100% + 6px); left: 0; min-width: 210px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 0.4rem; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.18s, transform 0.18s; z-index: 100; }
-    .nav-item:hover .dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+    .nav-item.dd-open .dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
     .dd-link { display: block; padding: 0.5rem 0.8rem; color: var(--text2); font-size: 0.85rem; font-weight: 500; border-radius: 5px; transition: all 0.15s; }
     .dd-link:hover { background: rgba(124,58,237,0.12); color: var(--purple2); }
     .dd-sep { margin: 4px 0; border-top: 1px solid var(--border2); }
@@ -125,13 +119,6 @@
     .coll-arrow { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--purple2); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: gap 0.2s; }
     .coll-card:hover .coll-arrow { gap: 0.7rem; }
 
-    /* ── WHY CARDS ── */
-    .why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.25rem; }
-    .why-card { padding: 1.75rem; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; }
-    .why-icon { font-size: 1.8rem; margin-bottom: 0.9rem; }
-    .why-card h3 { font-family: 'Orbitron', sans-serif; font-size: 0.88rem; font-weight: 700; margin-bottom: 0.45rem; }
-    .why-card p { color: var(--text2); font-size: 0.84rem; line-height: 1.65; }
-
     /* ── CTA STRIP ── */
     .cta-strip { text-align: center; padding: 5rem 1.5rem; background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(59,130,246,0.07)); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     .cta-strip h2 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.3rem, 3vw, 1.9rem); font-weight: 700; margin-bottom: 0.85rem; }
@@ -196,8 +183,6 @@
     /* ── PRODUCT DETAIL ── */
     .detail-wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
     .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start; }
-    .detail-img-box { width: 100%; aspect-ratio: 16/9; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: var(--text3); font-family: 'Orbitron', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; position: sticky; top: 90px; }
-    .detail-img-box img { width: 100%; height: 100%; object-fit: cover; }
     .breadcrumb { font-size: 0.78rem; color: var(--text3); margin-bottom: 1.1rem; display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
     .breadcrumb a { color: var(--purple2); transition: opacity 0.2s; }
     .breadcrumb a:hover { opacity: 0.75; }
@@ -215,6 +200,46 @@
     .detail-notice { padding: 0.8rem 1rem; background: rgba(124,58,237,0.07); border-left: 2px solid rgba(124,58,237,0.4); font-size: 0.8rem; color: var(--text3); line-height: 1.6; margin-bottom: 1.5rem; border-radius: 0 6px 6px 0; }
     .detail-btns { display: flex; flex-direction: column; gap: 0.65rem; }
     .detail-btns .btn { font-size: 0.9rem; padding: 0.85rem; }
+
+    /* ── IMAGE GALLERY ── */
+    .gal-wrap { position: relative; width: 100%; aspect-ratio: 16/9; background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; overflow: hidden; }
+    .gal-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .gal-noimg { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--bg3), #100a2e); color: var(--text3); font-family: 'Orbitron', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em; }
+    .gal-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(5,6,18,0.7); border: 1px solid rgba(255,255,255,0.1); color: white; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: background 0.2s; z-index: 2; }
+    .gal-btn:hover { background: rgba(5,6,18,0.95); }
+    .gal-prev { left: 10px; }
+    .gal-next { right: 10px; }
+    .gal-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 2; }
+    .gal-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.35); cursor: pointer; border: none; padding: 0; transition: background 0.2s; }
+    .gal-dot.on { background: white; }
+    .gal-thumbs { display: flex; gap: 0.5rem; margin-top: 0.65rem; flex-wrap: wrap; }
+    .gal-thumb { width: 62px; height: 46px; border-radius: 6px; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: border-color 0.18s; flex-shrink: 0; }
+    .gal-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .gal-thumb.on { border-color: var(--purple2); }
+
+    /* ── BENTO PREVIEW ── */
+    .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .bento-grid > :nth-child(1) { grid-column: span 2; }
+    .bento-grid > :nth-child(4) { grid-column: span 2; }
+    .bento-card { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid var(--border2); display: flex; flex-direction: column; cursor: pointer; transition: all 0.28s; background: var(--bg2); }
+    .bento-card:hover { transform: translateY(-3px); box-shadow: 0 18px 52px rgba(124,58,237,0.14); border-color: rgba(124,58,237,0.38); }
+    .bento-big { min-height: 360px; justify-content: flex-end; }
+    .bento-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.4s; }
+    .bento-card:hover .bento-bg { transform: scale(1.04); }
+    .bento-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,6,18,0.96) 0%, rgba(5,6,18,0.45) 48%, transparent 100%); pointer-events: none; }
+    .bento-noimg { position: absolute; inset: 0; background: linear-gradient(135deg, var(--bg3), #100a2e); display: flex; align-items: center; justify-content: center; color: var(--text3); font-family: 'Orbitron', sans-serif; font-size: 0.58rem; letter-spacing: 0.22em; }
+    .bento-big-body { position: relative; z-index: 1; padding: 1.5rem; }
+    .bento-sm { min-height: 260px; }
+    .bento-sm-img { aspect-ratio: 16/9; overflow: hidden; position: relative; background: var(--bg3); flex-shrink: 0; }
+    .bento-sm-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .bento-card.bento-sm:hover .bento-sm-img img { transform: scale(1.05); }
+    .bento-sm-noimg { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--bg3), #100a2e); color: var(--text3); font-family: 'Orbitron', sans-serif; font-size: 0.55rem; letter-spacing: 0.22em; }
+    .bento-sm-body { padding: 1.1rem; flex: 1; display: flex; flex-direction: column; }
+    .bento-title { font-family: 'Orbitron', sans-serif; font-weight: 700; line-height: 1.3; margin-bottom: 0.35rem; font-size: 0.88rem; }
+    .bento-title-lg { font-size: 1.15rem; margin-bottom: 0.45rem; }
+    .bento-price { font-family: 'Orbitron', sans-serif; font-weight: 700; color: var(--purple2); margin-bottom: 1rem; font-size: 1.15rem; }
+    .bento-price-lg { font-size: 1.6rem; }
+    .bento-desc { color: var(--text2); font-size: 0.8rem; line-height: 1.55; flex: 1; margin-bottom: 0.9rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
     /* ── SEPARATOR ── */
     .sep { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
@@ -250,9 +275,11 @@
       .hdr-nav, .hdr-right { display: none; }
       .hamburger { display: flex; }
       .detail-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .detail-img-box { position: static; }
       .foot-inner { grid-template-columns: 1fr; gap: 2rem; }
       .foot-bottom { flex-direction: column; }
+      .bento-grid { grid-template-columns: 1fr; }
+      .bento-grid > :nth-child(1), .bento-grid > :nth-child(4) { grid-column: span 1; }
+      .bento-big { min-height: 280px; }
     }
     @media (max-width: 500px) {
       .hero h1 { font-size: 1.9rem; }
@@ -272,12 +299,12 @@
       <div class="nav-item">
         <button class="nav-btn" onclick="nav('/')">Home</button>
       </div>
-      <div class="nav-item">
-        <button class="nav-btn">Accounts <span class="caret">▾</span></button>
+      <div class="nav-item" id="ni-accounts">
+        <button class="nav-btn" onclick="toggleDD('ni-accounts')">Accounts <span class="caret">▾</span></button>
         <div class="dropdown" id="dd-accounts"></div>
       </div>
-      <div class="nav-item">
-        <button class="nav-btn">Items <span class="caret">▾</span></button>
+      <div class="nav-item" id="ni-items">
+        <button class="nav-btn" onclick="toggleDD('ni-items')">Items <span class="caret">▾</span></button>
         <div class="dropdown" id="dd-items"></div>
       </div>
       <div class="nav-item">
@@ -301,97 +328,71 @@
 <footer id="foot"></footer>
 
 <script>
-/* ════════════════════════════════════════════════════════════════
-   ⚙️  CONFIG  — edit these
-════════════════════════════════════════════════════════════════ */
 const CFG = {
   name:    "GameHub Market",
-  discord: "https://discord.gg/XXXXXXXXX",   // ← paste your Discord link here
+  discord: "https://discord.com/invite/99YdEndRWP",
+  sheetURL:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSdeooASHTbIG5KvLir_HRxL-Y9qGRclPYDFST2IFv46gh6_JeZUrG0Aaq-Am7cGQfKKPHLzflNHWqX/pub?gid=0&single=true&output=csv",
   tagline: "Game Accounts & Items,",
   tagline2:"All in One Place.",
   sub:     "Browse premium gaming accounts and in-game items with clear prices. Join our Discord to check availability, ask questions, and purchase.",
-  // ── GOOGLE SHEETS ──────────────────────────────────────────────
-  // 1. Open your Google Sheet → File → Share → Publish to web
-  // 2. Choose "Sheet1" and "CSV" → click Publish → copy the link
-  // 3. Paste it below. Leave "" to use the built-in demo products.
-  sheetURL: "",
 };
 
-/* ════════════════════════════════════════════════════════════════
-   📂  CATEGORIES
-════════════════════════════════════════════════════════════════ */
 const ACCT_CATS = [
-  { id:"ps5-nba2k",        name:"PS5 NBA2K Accounts",        game:"NBA2K",    plat:"PS5",   desc:"Browse PS5 NBA2K accounts with clear prices and Discord purchase support." },
-  { id:"xbox-nba2k",       name:"Xbox NBA2K Accounts",       game:"NBA2K",    plat:"Xbox",  desc:"Browse Xbox NBA2K accounts with clear prices and Discord purchase support." },
-  { id:"brainrot-accounts",name:"Steal a Brainrot Accounts", game:"Brainrot", plat:"PC",    desc:"Browse available Steal a Brainrot accounts with clear pricing." },
-  { id:"fortnite",         name:"Fortnite Accounts",         game:"Fortnite", plat:"Multi", desc:"Browse Fortnite accounts with clear prices and Discord purchase support." },
+  { id:"ps5-nba2k",        name:"PS5 NBA2K Accounts",        desc:"Browse PS5 NBA2K accounts with clear prices and Discord purchase support." },
+  { id:"xbox-nba2k",       name:"Xbox NBA2K Accounts",        desc:"Browse Xbox NBA2K accounts with clear prices and Discord purchase support." },
+  { id:"brainrot-accounts",name:"Steal a Brainrot Accounts",  desc:"Browse available Steal a Brainrot accounts with clear pricing." },
+  { id:"fortnite",         name:"Fortnite Accounts",          desc:"Browse Fortnite accounts with clear prices and Discord purchase support." },
 ];
 const ITEM_CATS = [
-  { id:"brainrot-items", name:"Steal a Brainrot Items", game:"Brainrot",    desc:"Browse available Steal a Brainrot in-game items." },
-  { id:"blox-fruits",    name:"Blox Fruits Items",      game:"Blox Fruits", desc:"Browse available Blox Fruits items with listed prices. Join Discord to purchase or ask about availability." },
+  { id:"brainrot-items", name:"Steal a Brainrot Items", desc:"Browse available Steal a Brainrot in-game items." },
+  { id:"blox-fruits",    name:"Blox Fruits Items",      desc:"Browse available Blox Fruits items with listed prices. Join Discord to purchase or ask about availability." },
 ];
 
-/* ════════════════════════════════════════════════════════════════
-   📦  PRODUCTS — fallback/demo data (used when sheetURL is empty)
-════════════════════════════════════════════════════════════════ */
-let PRODUCTS = [
-  {
-    id:"a1", title:"PS5 NBA2K Account — Veteran Build", price:120,
-    type:"account", game:"NBA2K", platform:"PS5", category:"ps5-nba2k", image:"",
-    description:"High-value PS5 NBA2K account with veteran player status. Message on Discord to confirm details and availability before purchasing.",
-    details:[{label:"Platform",value:"PS5"},{label:"Game",value:"NBA2K"},{label:"Type",value:"Account"},{label:"Delivery",value:"Manual via Discord"}],
-    tags:["PS5","NBA2K","Veteran"], available:true, featured:true,
-  },
-  {
-    id:"a2", title:"PS5 NBA2K Account — Starter Pack", price:45,
-    type:"account", game:"NBA2K", platform:"PS5", category:"ps5-nba2k", image:"",
-    description:"Good entry-level PS5 NBA2K account at a budget-friendly price. Ask on Discord for full details.",
-    details:[{label:"Platform",value:"PS5"},{label:"Game",value:"NBA2K"},{label:"Type",value:"Account"},{label:"Delivery",value:"Manual via Discord"}],
-    tags:["PS5","NBA2K","Starter"], available:true, featured:false,
-  },
-  {
-    id:"a3", title:"Xbox NBA2K Account — Pro Series", price:85,
-    type:"account", game:"NBA2K", platform:"Xbox", category:"xbox-nba2k", image:"",
-    description:"Pro-level Xbox NBA2K account with solid stats and competitive history. Confirm availability on Discord.",
-    details:[{label:"Platform",value:"Xbox"},{label:"Game",value:"NBA2K"},{label:"Type",value:"Account"},{label:"Delivery",value:"Manual via Discord"}],
-    tags:["Xbox","NBA2K","Pro"], available:true, featured:true,
-  },
-  {
-    id:"a4", title:"Fortnite Account — Season Veteran", price:60,
-    type:"account", game:"Fortnite", platform:"Multi-Platform", category:"fortnite", image:"",
-    description:"Multi-season Fortnite account with rare cosmetics. DM on Discord to check availability and details.",
-    details:[{label:"Platform",value:"Multi-Platform"},{label:"Game",value:"Fortnite"},{label:"Type",value:"Account"},{label:"Delivery",value:"Manual via Discord"}],
-    tags:["Fortnite","Rare Skins","Season"], available:true, featured:true,
-  },
-  {
-    id:"a5", title:"Steal a Brainrot Account — Max Level", price:35,
-    type:"account", game:"Brainrot", platform:"PC", category:"brainrot-accounts", image:"",
-    description:"Max level Steal a Brainrot account. Join Discord to confirm availability and purchase.",
-    details:[{label:"Platform",value:"PC"},{label:"Game",value:"Steal a Brainrot"},{label:"Type",value:"Account"},{label:"Delivery",value:"Manual via Discord"}],
-    tags:["Brainrot","Max Level"], available:false, featured:false,
-  },
-  {
-    id:"i1", title:"Blox Fruits Item — Rare Fruit", price:25,
-    type:"item", game:"Blox Fruits", platform:"", category:"blox-fruits", image:"",
-    description:"In-game Blox Fruits item listing. Join Discord to confirm availability and purchase.",
-    details:[{label:"Game",value:"Blox Fruits"},{label:"Type",value:"In-Game Item"},{label:"Delivery",value:"Manual via Discord"}],
-    tags:["Blox Fruits","Rare","Item"], available:true, featured:true,
-  },
-  {
-    id:"i2", title:"Steal a Brainrot Item Bundle", price:15,
-    type:"item", game:"Brainrot", platform:"", category:"brainrot-items", image:"",
-    description:"Bundle of in-game Steal a Brainrot items. Message on Discord to ask about availability.",
-    details:[{label:"Game",value:"Steal a Brainrot"},{label:"Type",value:"In-Game Item"},{label:"Delivery",value:"Manual via Discord"}],
-    tags:["Brainrot","Item","Bundle"], available:true, featured:false,
-  },
-];
+let PRODUCTS = [];
 
-/* ════════════════════════════════════════════════════════════════
-   🔧  HELPERS
-════════════════════════════════════════════════════════════════ */
 const $ = id => document.getElementById(id);
 const fmt = p => "$" + p;
 const allCats = () => [...ACCT_CATS, ...ITEM_CATS];
+
+function driveUrl(url) {
+  if (!url || !url.trim()) return "";
+  const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (m) return `https://drive.google.com/uc?export=view&id=${m[1]}`;
+  return url.trim();
+}
+
+function buildDetails(row) {
+  const d = [];
+  if (row.platform && row.platform.trim()) d.push({ label:"Platform", value:row.platform.trim() });
+  if (row.game && row.game.trim())         d.push({ label:"Game",     value:row.game.trim() });
+  d.push({ label:"Type",     value:(row.type||"").toLowerCase()==="account"?"Account":"In-Game Item" });
+  d.push({ label:"Delivery", value:"Manual via Discord" });
+  return d;
+}
+
+async function loadProducts() {
+  if (!CFG.sheetURL || CFG.sheetURL.includes("SHEET_ID")) return;
+  try {
+    const result = await new Promise((resolve, reject) => {
+      Papa.parse(CFG.sheetURL, { download:true, header:true, skipEmptyLines:true, complete:resolve, error:reject });
+    });
+    PRODUCTS = result.data.filter(r => r.id && r.title).map(r => ({
+      id:          r.id.trim(),
+      title:       r.title.trim(),
+      price:       parseFloat(r.price) || 0,
+      type:        (r.type || "account").trim().toLowerCase(),
+      game:        (r.game || "").trim(),
+      platform:    (r.platform || "").trim(),
+      category:    (r.category || "").trim(),
+      images:      (r.image || "").split(",").map(u => driveUrl(u.trim())).filter(Boolean),
+      description: (r.description || "").trim(),
+      details:     buildDetails(r),
+      tags:        (r.tags || "").split(",").map(t => t.trim()).filter(Boolean),
+      available:   ["TRUE","YES","1"].includes((r.available || "").trim().toUpperCase()),
+      featured:    ["TRUE","YES","1"].includes((r.featured  || "").trim().toUpperCase()),
+    }));
+  } catch(e) { console.error("GameHub: sheet load failed —", e); }
+}
 
 function nav(hash) {
   location.hash = hash;
@@ -399,30 +400,38 @@ function nav(hash) {
   $("ham").classList.remove("open");
   window.scrollTo({ top:0, behavior:"smooth" });
 }
-
 function toggleMob() {
   $("mob").classList.toggle("open");
   $("ham").classList.toggle("open");
 }
+function toggleDD(id) {
+  const el = $(id);
+  const isOpen = el.classList.contains("dd-open");
+  document.querySelectorAll(".nav-item.dd-open").forEach(n => n.classList.remove("dd-open"));
+  if (!isOpen) el.classList.add("dd-open");
+}
+document.addEventListener("click", e => {
+  if (!e.target.closest(".nav-item"))
+    document.querySelectorAll(".nav-item.dd-open").forEach(n => n.classList.remove("dd-open"));
+});
 
-/* ════════════════════════════════════════════════════════════════
-   🧩  BUILD CHROME (header dropdowns, mobile menu, footer)
-════════════════════════════════════════════════════════════════ */
+let _gallery = { imgs:[], idx:0 };
+function galSet(idx) {
+  _gallery.idx = idx;
+  const img = $("gal-img");
+  if (img) img.src = _gallery.imgs[idx];
+  document.querySelectorAll(".gal-dot").forEach((d,i) => d.classList.toggle("on", i===idx));
+  document.querySelectorAll(".gal-thumb").forEach((t,i) => t.classList.toggle("on", i===idx));
+}
+function galGo(dir) { galSet((_gallery.idx + dir + _gallery.imgs.length) % _gallery.imgs.length); }
+
 function buildChrome() {
   document.title = CFG.name;
   $("hdr-discord").href = CFG.discord;
-
-  // Account dropdown
-  $("dd-accounts").innerHTML =
-    ACCT_CATS.map(c => `<a class="dd-link" onclick="nav('/category/${c.id}')">${c.name}</a>`).join("") +
+  $("dd-accounts").innerHTML = ACCT_CATS.map(c=>`<a class="dd-link" onclick="nav('/category/${c.id}')">${c.name}</a>`).join("") +
     `<div class="dd-sep"></div><a class="dd-link dd-all" onclick="nav('/accounts')">View All Accounts →</a>`;
-
-  // Items dropdown
-  $("dd-items").innerHTML =
-    ITEM_CATS.map(c => `<a class="dd-link" onclick="nav('/category/${c.id}')">${c.name}</a>`).join("") +
+  $("dd-items").innerHTML = ITEM_CATS.map(c=>`<a class="dd-link" onclick="nav('/category/${c.id}')">${c.name}</a>`).join("") +
     `<div class="dd-sep"></div><a class="dd-link dd-all" onclick="nav('/items')">View All Items →</a>`;
-
-  // Mobile menu
   $("mob").innerHTML = `
     <a class="mob-link" onclick="nav('/')">Home</a>
     <span class="mob-link" style="pointer-events:none;opacity:.5;font-size:.7rem;letter-spacing:.15em">Accounts</span>
@@ -430,8 +439,6 @@ function buildChrome() {
     <span class="mob-link" style="pointer-events:none;opacity:.5;font-size:.7rem;letter-spacing:.15em">Items</span>
     <div class="mob-sub">${ITEM_CATS.map(c=>`<a class="mob-link" onclick="nav('/category/${c.id}')">${c.name}</a>`).join("")}<a class="mob-link" style="color:var(--purple2)" onclick="nav('/items')">View All Items</a></div>
     <a class="mob-link" style="color:var(--discord)" href="${CFG.discord}" target="_blank">Join Discord</a>`;
-
-  // Footer
   $("foot").innerHTML = `
     <div class="foot-inner">
       <div class="foot-brand">
@@ -439,33 +446,27 @@ function buildChrome() {
         <p>${CFG.name} is a gaming catalog for browsing accounts and in-game items. Join Discord to check availability and purchase.</p>
         <a class="btn btn-discord" href="${CFG.discord}" target="_blank">Join Discord</a>
       </div>
-      <div class="foot-col">
-        <h4>Navigate</h4>
-        <a onclick="nav('/')">Home</a>
-        <a onclick="nav('/accounts')">Accounts</a>
-        <a onclick="nav('/items')">Items</a>
-        <a href="${CFG.discord}" target="_blank">Discord</a>
+      <div class="foot-col"><h4>Navigate</h4>
+        <a onclick="nav('/')">Home</a><a onclick="nav('/accounts')">Accounts</a>
+        <a onclick="nav('/items')">Items</a><a href="${CFG.discord}" target="_blank">Discord</a>
       </div>
-      <div class="foot-col">
-        <h4>Categories</h4>
+      <div class="foot-col"><h4>Categories</h4>
         ${ACCT_CATS.map(c=>`<a onclick="nav('/category/${c.id}')">${c.name}</a>`).join("")}
         ${ITEM_CATS.map(c=>`<a onclick="nav('/category/${c.id}')">${c.name}</a>`).join("")}
       </div>
     </div>
     <div class="foot-bottom">
-      <p class="foot-copy">© ${new Date().getFullYear()} ${CFG.name}. ${CFG.name} is an independent marketplace-style catalog and is not affiliated with, endorsed by, or sponsored by any game publisher, platform, or brand. Listings are subject to availability and should be confirmed through Discord before purchase.</p>
+      <p class="foot-copy">© ${new Date().getFullYear()} ${CFG.name}. Independent marketplace-style catalog not affiliated with any game publisher or platform. Confirm availability on Discord before purchasing.</p>
       <a class="foot-discord" href="${CFG.discord}" target="_blank">💬 Discord</a>
     </div>`;
 }
 
-/* ════════════════════════════════════════════════════════════════
-   🃏  PRODUCT CARD
-════════════════════════════════════════════════════════════════ */
 function card(p) {
   const av = p.available;
+  const img = p.images && p.images[0];
   return `<div class="pcard">
     <div class="pcard-img">
-      ${p.image ? `<img src="${p.image}" alt="${p.title}" loading="lazy">` : `<div class="pcard-noimg">NO PREVIEW</div>`}
+      ${img?`<img src="${img}" alt="${p.title}" loading="lazy">`:`<div class="pcard-noimg">NO PREVIEW</div>`}
       <span class="pstatus ${av?"s-avail":"s-sold"}">${av?"Available":"Sold"}</span>
     </div>
     <div class="pcard-body">
@@ -479,17 +480,13 @@ function card(p) {
       <div class="pcard-desc">${p.description}</div>
       <div class="pcard-btns">
         <button class="pcard-btn pb-view" onclick="nav('/product/${p.id}')">View Details</button>
-        <a class="pcard-btn pb-buy${av?"":` pb-disabled`}" ${av?`href="${CFG.discord}" target="_blank"`:`href="#" onclick="return false"`}>Buy on Discord</a>
+        <a class="pcard-btn pb-buy${av?"":" pb-disabled"}" ${av?`href="${CFG.discord}" target="_blank"`:`href="#" onclick="return false"`}>Buy on Discord</a>
       </div>
     </div>
   </div>`;
 }
 
-/* ════════════════════════════════════════════════════════════════
-   🔍  FILTER / SORT ENGINE
-════════════════════════════════════════════════════════════════ */
 let _pool = [];
-
 function applyFS(pool, search, cat, sort) {
   let r = [...pool];
   if (cat !== "all") r = r.filter(p => p.category === cat);
@@ -503,15 +500,13 @@ function applyFS(pool, search, cat, sort) {
   if (sort==="available")  r.sort((a,b)=>(b.available?1:0)-(a.available?1:0));
   return r;
 }
-
 function renderGrid(target, products) {
   if (!products.length) {
-    target.innerHTML = `<div class="empty"><h3>No listings found.</h3><p>Try a different search, or join Discord to ask what is currently available.</p><a class="btn btn-discord" href="${CFG.discord}" target="_blank">Join Discord</a></div>`;
+    target.innerHTML = `<div class="empty"><h3>No listings found.</h3><p>Try a different search, or join Discord to ask what's available.</p><a class="btn btn-discord" href="${CFG.discord}" target="_blank">Join Discord</a></div>`;
     return;
   }
   target.innerHTML = `<div class="pgrid stagger">${products.map(card).join("")}</div>`;
 }
-
 function fsUpdate() {
   const s = ($("sf-in")||{}).value||"";
   const o = ($("sf-sort")||{}).value||"newest";
@@ -519,17 +514,14 @@ function fsUpdate() {
   const c = a ? a.dataset.cat : "all";
   renderGrid($("grid-wrap"), applyFS(_pool, s, c, o));
 }
-
-function setTab(el, cat) {
+function setTab(el) {
   document.querySelectorAll(".ftab").forEach(b=>b.classList.remove("on"));
   el.classList.add("on");
   fsUpdate();
 }
-
 function sfHTML(ph) {
   return `<div class="sf-row">
-    <div class="sf-wrap">
-      <span class="sf-icon">🔍</span>
+    <div class="sf-wrap"><span class="sf-icon">🔍</span>
       <input class="sf-input" id="sf-in" type="text" placeholder="${ph}" oninput="fsUpdate()">
     </div>
     <select class="sf-sort" id="sf-sort" onchange="fsUpdate()">
@@ -542,25 +534,58 @@ function sfHTML(ph) {
   </div>`;
 }
 
-/* ════════════════════════════════════════════════════════════════
-   📄  PAGE RENDERERS
-════════════════════════════════════════════════════════════════ */
+function previewCard(p, isBig) {
+  const av = p.available;
+  const img = p.images && p.images[0];
+  if (isBig) return `<div class="bento-card bento-big" onclick="nav('/product/${p.id}')">
+    ${img?`<div class="bento-bg" style="background-image:url('${img}')"></div><div class="bento-overlay"></div>`:`<div class="bento-noimg">NO PREVIEW</div>`}
+    <div class="bento-big-body">
+      <div class="pbadges" style="margin-bottom:.65rem">
+        ${p.platform?`<span class="bdg bdg-plat">${p.platform}</span>`:""}
+        <span class="bdg bdg-game">${p.game}</span>
+        <span class="bdg bdg-type">${p.type==="account"?"Account":"Item"}</span>
+        <span class="pstatus ${av?"s-avail":"s-sold"}" style="position:static;display:inline-block">${av?"Available":"Sold"}</span>
+      </div>
+      <div class="bento-title bento-title-lg">${p.title}</div>
+      <div class="bento-price bento-price-lg">${fmt(p.price)}</div>
+      <div class="pcard-btns">
+        <button class="pcard-btn pb-view" onclick="event.stopPropagation();nav('/product/${p.id}')">View Details</button>
+        <a class="pcard-btn pb-buy${av?"":" pb-disabled"}" ${av?`href="${CFG.discord}" target="_blank"`:`href="#" onclick="return false"`} onclick="event.stopPropagation()">Buy on Discord</a>
+      </div>
+    </div>
+  </div>`;
+  return `<div class="bento-card bento-sm" onclick="nav('/product/${p.id}')">
+    <div class="bento-sm-img">
+      ${img?`<img src="${img}" alt="${p.title}" loading="lazy">`:`<div class="bento-sm-noimg">NO PREVIEW</div>`}
+      <span class="pstatus ${av?"s-avail":"s-sold"}">${av?"Available":"Sold"}</span>
+    </div>
+    <div class="bento-sm-body">
+      <div class="pbadges" style="margin-bottom:.5rem">
+        ${p.platform?`<span class="bdg bdg-plat">${p.platform}</span>`:""}
+        <span class="bdg bdg-game">${p.game}</span>
+        <span class="bdg bdg-type">${p.type==="account"?"Account":"Item"}</span>
+      </div>
+      <div class="bento-title">${p.title}</div>
+      <div class="bento-price">${fmt(p.price)}</div>
+      <div class="bento-desc">${p.description}</div>
+      <div class="pcard-btns">
+        <button class="pcard-btn pb-view" onclick="event.stopPropagation();nav('/product/${p.id}')">View Details</button>
+        <a class="pcard-btn pb-buy${av?"":" pb-disabled"}" ${av?`href="${CFG.discord}" target="_blank"`:`href="#" onclick="return false"`} onclick="event.stopPropagation()">Buy on Discord</a>
+      </div>
+    </div>
+  </div>`;
+}
 
-// ── HOME ──
 function renderHome() {
-  const featured = PRODUCTS.filter(p=>p.featured).slice(0,6);
+  let preview = PRODUCTS.filter(p => p.available);
+  if (preview.length < 4) preview = [...preview, ...PRODUCTS.filter(p => !p.available)];
+  preview = preview.slice(0, 4);
   $("app").innerHTML = `
     <section class="hero">
-      <div class="hero-bg">
-        <div class="hero-grid-bg"></div>
-        <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
-      </div>
+      <div class="hero-bg"><div class="hero-grid-bg"></div><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
       <div class="hero-content fade-in">
         <div class="hero-pill"><span class="pill-dot"></span>Premium Gaming Marketplace</div>
-        <h1>
-          <em>${CFG.tagline}</em>
-          <span class="grad">${CFG.tagline2}</span>
-        </h1>
+        <h1><em>${CFG.tagline}</em><span class="grad">${CFG.tagline2}</span></h1>
         <p class="hero-sub">${CFG.sub}</p>
         <div class="hero-btns">
           <button class="btn btn-primary" onclick="nav('/accounts')">Browse Accounts</button>
@@ -574,32 +599,24 @@ function renderHome() {
       </div>
     </section>
     <div class="sep"></div>
+    ${preview.length ? `
+    <section class="section" style="background:var(--bg2)">
+      <div class="container">
+        <div class="sh"><h2>Latest <span>Listings</span></h2><p>Click any listing to see full details, then join Discord to purchase.</p></div>
+        <div class="bento-grid stagger">${preview.map((p,i)=>previewCard(p,i===0||i===3)).join("")}</div>
+        <div style="text-align:center;margin-top:2.5rem;display:flex;gap:.85rem;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-outline" onclick="nav('/accounts')">Browse All Accounts</button>
+          <button class="btn btn-outline" onclick="nav('/items')">Browse All Items</button>
+        </div>
+      </div>
+    </section>
+    <div class="sep"></div>` : ""}
     <section class="section" style="background:var(--bg)">
       <div class="container">
         <div class="sh"><h2>Browse by <span>Collection</span></h2><p>Find accounts and items organized by game, platform, and type.</p></div>
         <div class="coll-grid stagger">
           ${ACCT_CATS.map(c=>`<div class="coll-card" onclick="nav('/category/${c.id}')"><span class="coll-badge">Account</span><h3>${c.name}</h3><p>${c.desc}</p><span class="coll-arrow">View Collection →</span></div>`).join("")}
           ${ITEM_CATS.map(c=>`<div class="coll-card" onclick="nav('/category/${c.id}')"><span class="coll-badge item">Item</span><h3>${c.name}</h3><p>${c.desc}</p><span class="coll-arrow">View Collection →</span></div>`).join("")}
-        </div>
-      </div>
-    </section>
-    <div class="sep"></div>
-    ${featured.length ? `
-    <section class="section" style="background:var(--bg2)">
-      <div class="container">
-        <div class="sh"><h2>Featured <span>Listings</span></h2><p>Check out selected accounts and items currently available.</p></div>
-        <div class="pgrid stagger">${featured.map(card).join("")}</div>
-      </div>
-    </section>
-    <div class="sep"></div>` : ""}
-    <section class="section" style="background:var(--bg)">
-      <div class="container">
-        <div class="sh"><h2>Why <span>GameHub Market?</span></h2></div>
-        <div class="why-grid stagger">
-          <div class="why-card"><div class="why-icon">💰</div><h3>Clear Pricing</h3><p>Every listing shows its price up front. No hidden fees or surprise costs.</p></div>
-          <div class="why-card"><div class="why-icon">🗂️</div><h3>Organized Categories</h3><p>Browse accounts and items sorted by game and platform — easy to find exactly what you want.</p></div>
-          <div class="why-card"><div class="why-icon">💬</div><h3>Discord Support</h3><p>Ask questions and check availability before buying. Direct communication, no hassle.</p></div>
-          <div class="why-card"><div class="why-icon">🔄</div><h3>Updated Listings</h3><p>Listings are updated as availability changes. Always confirm on Discord before purchasing.</p></div>
         </div>
       </div>
     </section>
@@ -610,75 +627,76 @@ function renderHome() {
     </div>`;
 }
 
-// ── ACCOUNTS ──
 function renderAccounts() {
   _pool = PRODUCTS.filter(p=>p.type==="account");
   $("app").innerHTML = `<div class="pt">
-    <div class="page-hero"><h1>Browse <span>Game Accounts</span></h1><p>Search accounts by game, platform, category, or price. Find the listing you want, then join Discord to check availability and purchase.</p></div>
+    <div class="page-hero"><h1>Browse <span>Game Accounts</span></h1><p>Search accounts by game, platform, category, or price. Join Discord to check availability and purchase.</p></div>
     <div class="container" style="padding-bottom:5rem">
       ${sfHTML("Search accounts...")}
-      <div class="ftabs stagger" id="ftabs">
-        <button class="ftab on" data-cat="all" onclick="setTab(this,'all')">All Accounts</button>
-        ${ACCT_CATS.map(c=>`<button class="ftab" data-cat="${c.id}" onclick="setTab(this,'${c.id}')">${c.name}</button>`).join("")}
+      <div class="ftabs stagger">
+        <button class="ftab on" data-cat="all" onclick="setTab(this)">All Accounts</button>
+        ${ACCT_CATS.map(c=>`<button class="ftab" data-cat="${c.id}" onclick="setTab(this)">${c.name}</button>`).join("")}
       </div>
       <div id="grid-wrap"><div class="pgrid stagger">${_pool.map(card).join("")}</div></div>
     </div>
   </div>`;
 }
 
-// ── ITEMS ──
 function renderItems() {
   _pool = PRODUCTS.filter(p=>p.type==="item");
   $("app").innerHTML = `<div class="pt">
-    <div class="page-hero"><h1>Browse <span>Game Items</span></h1><p>View available in-game items with listed prices. Join Discord to ask questions, confirm availability, and purchase.</p></div>
+    <div class="page-hero"><h1>Browse <span>Game Items</span></h1><p>View available in-game items with listed prices. Join Discord to confirm availability and purchase.</p></div>
     <div class="container" style="padding-bottom:5rem">
       ${sfHTML("Search items...")}
-      <div class="ftabs stagger" id="ftabs">
-        <button class="ftab on" data-cat="all" onclick="setTab(this,'all')">All Items</button>
-        ${ITEM_CATS.map(c=>`<button class="ftab" data-cat="${c.id}" onclick="setTab(this,'${c.id}')">${c.name}</button>`).join("")}
+      <div class="ftabs stagger">
+        <button class="ftab on" data-cat="all" onclick="setTab(this)">All Items</button>
+        ${ITEM_CATS.map(c=>`<button class="ftab" data-cat="${c.id}" onclick="setTab(this)">${c.name}</button>`).join("")}
       </div>
       <div id="grid-wrap"><div class="pgrid stagger">${_pool.map(card).join("")}</div></div>
     </div>
   </div>`;
 }
 
-// ── CATEGORY ──
 function renderCategory(catId) {
   const cat = allCats().find(c=>c.id===catId);
   if (!cat) { nav("/"); return; }
   _pool = PRODUCTS.filter(p=>p.category===catId);
   const isAcct = ACCT_CATS.some(c=>c.id===catId);
   $("app").innerHTML = `<div class="pt">
-    <div class="page-hero">
-      <h1><span>${cat.name}</span></h1>
-      <p>${cat.desc} Message us on Discord to check availability or purchase.</p>
-    </div>
+    <div class="page-hero"><h1><span>${cat.name}</span></h1><p>${cat.desc} Message us on Discord to check availability or purchase.</p></div>
     <div class="container" style="padding-bottom:5rem">
       <button class="back-btn" onclick="nav('/${isAcct?'accounts':'items'}')">← Back to ${isAcct?'Accounts':'Items'}</button>
       ${sfHTML("Search " + cat.name.toLowerCase() + "...")}
       <div id="grid-wrap">
         ${_pool.length
           ? `<div class="pgrid stagger">${_pool.map(card).join("")}</div>`
-          : `<div class="empty"><h3>No listings yet.</h3><p>This collection is coming soon. Join our Discord to ask what is currently available.</p><a class="btn btn-discord" href="${CFG.discord}" target="_blank">Join Discord</a></div>`}
+          : `<div class="empty"><h3>No listings yet.</h3><p>This collection is coming soon. Join our Discord to ask what's available.</p><a class="btn btn-discord" href="${CFG.discord}" target="_blank">Join Discord</a></div>`}
       </div>
     </div>
   </div>`;
 }
 
-// ── PRODUCT DETAIL ──
 function renderProduct(pid) {
   const p = PRODUCTS.find(x=>x.id===pid);
   if (!p) { nav("/"); return; }
   const cat = allCats().find(c=>c.id===p.category);
-  const av  = p.available;
+  const av = p.available;
   const isAcct = p.type==="account";
+  _gallery = { imgs: p.images || [], idx: 0 };
+  const hasImgs = _gallery.imgs.length > 0;
   $("app").innerHTML = `<div class="pt">
     <div class="detail-wrap">
       <div class="detail-grid">
-        <div>
-          <div class="detail-img-box">
-            ${p.image?`<img src="${p.image}" alt="${p.title}">`:"NO IMAGE AVAILABLE"}
+        <div style="position:sticky;top:90px">
+          <div class="gal-wrap">
+            ${hasImgs ? `<img id="gal-img" src="${_gallery.imgs[0]}" alt="${p.title}">` : `<div class="gal-noimg">NO IMAGE AVAILABLE</div>`}
+            ${_gallery.imgs.length > 1 ? `
+              <button class="gal-btn gal-prev" onclick="galGo(-1)">‹</button>
+              <button class="gal-btn gal-next" onclick="galGo(1)">›</button>
+              <div class="gal-dots">${_gallery.imgs.map((_,i)=>`<button class="gal-dot${i===0?" on":""}" onclick="galSet(${i})"></button>`).join("")}</div>` : ""}
           </div>
+          ${_gallery.imgs.length > 1 ? `
+            <div class="gal-thumbs">${_gallery.imgs.map((src,i)=>`<div class="gal-thumb${i===0?" on":""}" onclick="galSet(${i})"><img src="${src}" loading="lazy"></div>`).join("")}</div>` : ""}
         </div>
         <div class="fade-in">
           <div class="breadcrumb">
@@ -694,9 +712,7 @@ function renderProduct(pid) {
             <span class="bdg bdg-type">${isAcct?"Account":"Item"}</span>
             ${p.tags.map(t=>`<span class="bdg" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--text2)">${t}</span>`).join("")}
           </div>
-          <div class="detail-status ${av?"s-avail":"s-sold"}">
-            ● ${av?"Available":"Sold"}
-          </div>
+          <div class="detail-status ${av?"s-avail":"s-sold"}">● ${av?"Available":"Sold"}</div>
           <p class="detail-desc">${p.description}</p>
           <div class="detail-specs">
             <h4>Details</h4>
@@ -718,75 +734,6 @@ function renderProduct(pid) {
   </div>`;
 }
 
-/* ════════════════════════════════════════════════════════════════
-   📊  GOOGLE SHEETS PARSER
-════════════════════════════════════════════════════════════════ */
-
-// Converts a raw CSV row from the sheet into a PRODUCTS-style object.
-// Columns: id, title, price, type, game, platform, category,
-//          image, description, details, tags, available, featured
-//
-// details format in sheet:  "Platform: PS5 | Game: NBA2K | Delivery: Manual"
-// tags format in sheet:     "PS5, NBA2K, Veteran"
-// available / featured:     "yes" or "no"
-
-// Converts a Google Drive share link into a direct image URL.
-// Accepts any of these formats your friend might copy from Drive:
-//   https://drive.google.com/file/d/FILE_ID/view?usp=sharing
-//   https://drive.google.com/open?id=FILE_ID
-//   https://drive.google.com/uc?id=FILE_ID   (already a direct link)
-// Returns the original URL unchanged for anything else (Imgur, etc.)
-function toDirectImage(url) {
-  if (!url) return "";
-  // Already a direct uc link
-  if (url.includes("drive.google.com/uc")) return url;
-  // /file/d/FILE_ID/... format
-  const m1 = url.match(/\/file\/d\/([^/]+)/);
-  if (m1) return `https://drive.google.com/uc?export=view&id=${m1[1]}`;
-  // open?id=FILE_ID or uc?id=FILE_ID format
-  const m2 = url.match(/[?&]id=([^&]+)/);
-  if (m2) return `https://drive.google.com/uc?export=view&id=${m2[1]}`;
-  // Not a Drive link — return as-is (Imgur, etc.)
-  return url;
-}
-
-function parseSheetRow(r) {
-  return {
-    id:          r.id          || ("p" + Math.random().toString(36).slice(2,7)),
-    title:       r.title       || "Untitled",
-    price:       parseFloat(r.price) || 0,
-    type:        (r.type       || "account").toLowerCase(),
-    game:        r.game        || "",
-    platform:    r.platform    || "",
-    category:    r.category    || "",
-    image:       toDirectImage(r.image || ""),
-    description: r.description || "",
-    details:     parseDetails(r.details || ""),
-    tags:        (r.tags || "").split(",").map(t => t.trim()).filter(Boolean),
-    available:   (r.available  || "yes").toLowerCase().trim() === "yes",
-    featured:    (r.featured   || "no" ).toLowerCase().trim() === "yes",
-  };
-}
-
-function parseDetails(str) {
-  // Splits "Platform: PS5 | Game: NBA2K" into [{label,value}, ...]
-  return str.split("|").map(s => {
-    const i = s.indexOf(":");
-    if (i < 0) return null;
-    return { label: s.slice(0, i).trim(), value: s.slice(i + 1).trim() };
-  }).filter(Boolean);
-}
-
-function showLoading() {
-  $("app").innerHTML = `
-    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding-top:68px">
-      <div style="font-family:'Orbitron',sans-serif;font-size:.8rem;letter-spacing:.25em;color:var(--purple2);animation:blink 1.2s ease-in-out infinite">LOADING INVENTORY...</div>
-    </div>`;
-}
-
-/* ════════════════════════════════════════════════════════════════
-   🚦  ROUTER
-════════════════════════════════════════════════════════════════ */
 function route() {
   const h = location.hash.replace("#","") || "/";
   if      (h==="/" || h==="")          renderHome();
@@ -799,30 +746,9 @@ function route() {
 
 window.addEventListener("hashchange", route);
 
-/* ════════════════════════════════════════════════════════════════
-   🚀  INIT — loads from Google Sheet if sheetURL is set
-════════════════════════════════════════════════════════════════ */
 buildChrome();
-
-if (CFG.sheetURL) {
-  showLoading();
-  Papa.parse(CFG.sheetURL, {
-    download:  true,
-    header:    true,
-    skipEmptyLines: true,
-    complete: res => {
-      const rows = res.data.filter(r => r.id && r.title);
-      if (rows.length) PRODUCTS = rows.map(parseSheetRow);
-      route();
-    },
-    error: () => {
-      // Sheet failed — fall back to built-in demo products silently
-      route();
-    },
-  });
-} else {
-  route();
-}
+$("app").innerHTML = `<div style="min-height:70vh;display:flex;align-items:center;justify-content:center"><p style="color:var(--text3);font-family:'Orbitron',sans-serif;font-size:.82rem;letter-spacing:.18em;animation:blink 1.4s ease-in-out infinite">LOADING LISTINGS…</p></div>`;
+loadProducts().then(() => route());
 </script>
 </body>
 </html>
