@@ -385,7 +385,7 @@ async function loadProducts() {
       type:        (r.type || "account").trim().toLowerCase(),
       game:        (r.game || "").trim(),
       platform:    (r.platform || "").trim(),
-      category:    (r.category || "").trim().toLowerCase(),
+      category:    (r.category || "").trim().toLowerCase().replace(/[\s_]+/g, '-'),
       images:      (r.image || "").split(",").map(u => driveUrl(u.trim())).filter(Boolean),
       description: (r.description || "").trim(),
       details:     buildDetails(r),
