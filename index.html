@@ -167,7 +167,7 @@
     .bdg-type { background: rgba(236,72,153,0.1); border: 1px solid rgba(236,72,153,0.23); color: #f472b6; }
     .pcard-title { font-family: 'Orbitron', sans-serif; font-size: 0.87rem; font-weight: 700; letter-spacing: 0.02em; margin-bottom: 0.35rem; }
     .pcard-price { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--purple2); margin-bottom: 0.45rem; }
-    .pcard-desc { font-size: 0.82rem; color: var(--text2); line-height: 1.6; flex: 1; margin-bottom: 1rem; }
+    .pcard-desc { font-size: 0.82rem; color: var(--text2); line-height: 1.6; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
     .pcard-btns { display: flex; gap: 0.45rem; }
     .pcard-btn { flex: 1; padding: 0.52rem 0.4rem; font-family: 'Rajdhani', sans-serif; font-size: 0.73rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-align: center; border-radius: 6px; cursor: pointer; transition: all 0.18s; border: none; display: flex; align-items: center; justify-content: center; text-decoration: none; }
     .pb-view { background: rgba(124,58,237,0.13); color: var(--purple2); border: 1px solid rgba(124,58,237,0.28); }
@@ -240,7 +240,7 @@
     .bento-title-lg { font-size: 1.15rem; margin-bottom: 0.45rem; }
     .bento-price { font-family: 'Orbitron', sans-serif; font-weight: 700; color: var(--purple2); margin-bottom: 1rem; font-size: 1.15rem; }
     .bento-price-lg { font-size: 1.6rem; }
-    .bento-desc { color: var(--text2); font-size: 0.8rem; line-height: 1.55; flex: 1; margin-bottom: 0.9rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .bento-desc { color: var(--text2); font-size: 0.8rem; line-height: 1.55; margin-bottom: 0.9rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
     /* ── SEPARATOR ── */
     .sep { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
@@ -384,7 +384,7 @@ async function loadProducts() {
       type:        (r.type || "account").trim().toLowerCase(),
       game:        (r.game || "").trim(),
       platform:    (r.platform || "").trim(),
-      category:    (r.category || "").trim(),
+      category:    (r.category || "").trim().toLowerCase(),
       images:      (r.image || "").split(",").map(u => driveUrl(u.trim())).filter(Boolean),
       description: (r.description || "").trim(),
       details:     buildDetails(r),
