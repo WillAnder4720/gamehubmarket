@@ -593,9 +593,11 @@ function previewCard(p, isBig) {
 }
 
 function renderHome() {
-  let preview = PRODUCTS.filter(p => p.available);
-  if (preview.length < 4) preview = [...preview, ...PRODUCTS.filter(p => !p.available)];
-  preview = preview.slice(0, 4);
+  let available = PRODUCTS.filter(p => p.available);
+  let seen = new Set(), preview = [];
+  for (let p of available) { if (!seen.has(p.category) && preview.length < 4) { seen.add(p.category); preview.push(p); } }
+  for (let p of available) { if (!preview.includes(p) && preview.length < 4) preview.push(p); }
+  if (preview.length < 4) { for (let p of PRODUCTS) { if (!preview.includes(p) && preview.length < 4) preview.push(p); } }
   $("app").innerHTML = `
     <section class="hero">
       <div class="hero-bg"><div class="hero-grid-bg"></div><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
