@@ -682,21 +682,15 @@ function renderProduct(pid) {
   const cat = allCats().find(c=>c.id===p.category);
   const av = p.available;
   const isAcct = p.type==="account";
-  _gallery = { imgs: p.images || [], idx: 0 };
-  const hasImgs = _gallery.imgs.length > 0;
+  const imgs = p.images || [];
+  const hasImgs = imgs.length > 0;
   $("app").innerHTML = `<div class="pt">
     <div class="detail-wrap">
       <div class="detail-grid">
-        <div style="position:sticky;top:90px">
-          <div class="gal-wrap">
-            ${hasImgs ? `<img id="gal-img" src="${_gallery.imgs[0]}" alt="${p.title}">` : `<div class="gal-noimg">NO IMAGE AVAILABLE</div>`}
-            ${_gallery.imgs.length > 1 ? `
-              <button class="gal-btn gal-prev" onclick="galGo(-1)">‹</button>
-              <button class="gal-btn gal-next" onclick="galGo(1)">›</button>
-              <div class="gal-dots">${_gallery.imgs.map((_,i)=>`<button class="gal-dot${i===0?" on":""}" onclick="galSet(${i})"></button>`).join("")}</div>` : ""}
-          </div>
-          ${_gallery.imgs.length > 1 ? `
-            <div class="gal-thumbs">${_gallery.imgs.map((src,i)=>`<div class="gal-thumb${i===0?" on":""}" onclick="galSet(${i})"><img src="${src}" loading="lazy"></div>`).join("")}</div>` : ""}
+        <div${imgs.length <= 1 ? ' style="position:sticky;top:90px"' : ''}>
+          ${hasImgs
+            ? imgs.map(src=>`<div class="gal-wrap" style="margin-bottom:0.75rem"><img src="${src}" alt="${p.title}" loading="lazy"></div>`).join("")
+            : `<div class="gal-wrap"><div class="gal-noimg">NO IMAGE AVAILABLE</div></div>`}
         </div>
         <div class="fade-in">
           <div class="breadcrumb">
