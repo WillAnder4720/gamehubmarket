@@ -363,6 +363,19 @@ function driveUrl(url) {
   return url.trim();
 }
 
+function inferCategory(row) {
+  const cat = (row.category || "").trim().toLowerCase().replace(/[\s_]+/g, '-');
+  if (cat) return cat;
+  const game = (row.game || "").toLowerCase();
+  const type = (row.type || "").toLowerCase();
+  const plat = (row.platform || "").toLowerCase();
+  if (game.includes('brainrot')) return type === 'item' ? 'brainrot-items' : 'brainrot-accounts';
+  if (game.includes('blox'))     return 'blox-fruits';
+  if (game.includes('fortnite')) return 'fortnite';
+  if (game.includes('2k') || game.includes('nba')) return plat.includes('xbox') ? 'xbox-nba2k' : 'ps5-nba2k';
+  return cat;
+}
+
 function buildDetails(row) {
   const d = [];
   if (row.platform && row.platform.trim()) d.push({ label:"Platform", value:row.platform.trim() });
@@ -385,7 +398,7 @@ async function loadProducts() {
       type:        (r.type || "account").trim().toLowerCase(),
       game:        (r.game || "").trim(),
       platform:    (r.platform || "").trim(),
-      category:    (r.category || "").trim().toLowerCase().replace(/[\s_]+/g, '-'),
+      category:    inferCategory(r),
       images:      (r.image || "").split(",").map(u => driveUrl(u.trim())).filter(Boolean),
       description: (r.description || "").trim(),
       details:     buildDetails(r),
