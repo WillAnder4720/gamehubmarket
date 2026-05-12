@@ -364,8 +364,9 @@ function driveUrl(url) {
 }
 
 function inferCategory(row) {
+  const VALID = ['ps5-nba2k','xbox-nba2k','brainrot-accounts','fortnite','brainrot-items','blox-fruits'];
   const cat = (row.category || "").trim().toLowerCase().replace(/[\s_]+/g, '-');
-  if (cat) return cat;
+  if (VALID.includes(cat)) return cat;
   const game = (row.game || "").toLowerCase();
   const type = (row.type || "").toLowerCase();
   const plat = (row.platform || "").toLowerCase();
